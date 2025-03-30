@@ -409,6 +409,8 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 64
   CurrentTerrainChunck: {fileID: 0}
+  SpawnedChuncks: []
+  MaxOptimizationDistance: 50
 --- !u!1 &1798613723
 GameObject:
   m_ObjectHideFlags: 0
