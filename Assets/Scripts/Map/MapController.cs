@@ -36,7 +36,7 @@ public class MapController : MonoBehaviour
     {
         if (!CurrentTerrainChunck) return; // Check if CurrentTerrainChunck is null
 
-        if (_playerMovement.moveDirection.x > 0 && _playerMovement.moveDirection.y == 0) //right
+        if (_playerMovement.MoveDirection.x > 0 && _playerMovement.MoveDirection.y == 0) //right
         {
             if (!Physics2D.OverlapCircle(CurrentTerrainChunck.transform.Find("Right").position, CheckerRadius, terrainMask))
             {
@@ -44,7 +44,7 @@ public class MapController : MonoBehaviour
                 SpawnChunck();
             }
         }
-        else if (_playerMovement.moveDirection.x < 0 && _playerMovement.moveDirection.y == 0) //left
+        else if (_playerMovement.MoveDirection.x < 0 && _playerMovement.MoveDirection.y == 0) //left
         {
             if (!Physics2D.OverlapCircle(CurrentTerrainChunck.transform.Find("Left").position, CheckerRadius, terrainMask))
             {
@@ -52,7 +52,7 @@ public class MapController : MonoBehaviour
                 SpawnChunck();
             }
         }
-        else if (_playerMovement.moveDirection.x == 0 && _playerMovement.moveDirection.y > 0) //up
+        else if (_playerMovement.MoveDirection.x == 0 && _playerMovement.MoveDirection.y > 0) //up
         {
             if (!Physics2D.OverlapCircle(CurrentTerrainChunck.transform.Find("Up").position, CheckerRadius, terrainMask))
             {
@@ -60,7 +60,7 @@ public class MapController : MonoBehaviour
                 SpawnChunck();
             }
         }
-        else if (_playerMovement.moveDirection.x == 0 && _playerMovement.moveDirection.y < 0) //down
+        else if (_playerMovement.MoveDirection.x == 0 && _playerMovement.MoveDirection.y < 0) //down
         {
             if (!Physics2D.OverlapCircle(CurrentTerrainChunck.transform.Find("Down").position, CheckerRadius, terrainMask))
             {
@@ -68,7 +68,7 @@ public class MapController : MonoBehaviour
                 SpawnChunck();
             }
         }
-        else if (_playerMovement.moveDirection.x > 0 && _playerMovement.moveDirection.y > 0) //right up
+        else if (_playerMovement.MoveDirection.x > 0 && _playerMovement.MoveDirection.y > 0) //right up
         {
             if (!Physics2D.OverlapCircle(CurrentTerrainChunck.transform.Find("Right Up").position, CheckerRadius, terrainMask))
             {
@@ -76,7 +76,7 @@ public class MapController : MonoBehaviour
                 SpawnChunck();
             }
         }
-        else if (_playerMovement.moveDirection.x > 0 && _playerMovement.moveDirection.y < 0) //right down
+        else if (_playerMovement.MoveDirection.x > 0 && _playerMovement.MoveDirection.y < 0) //right down
         {
             if (!Physics2D.OverlapCircle(CurrentTerrainChunck.transform.Find("Right Down").position, CheckerRadius, terrainMask))
             {
@@ -84,7 +84,7 @@ public class MapController : MonoBehaviour
                 SpawnChunck();
             }
         }
-        else if (_playerMovement.moveDirection.x < 0 && _playerMovement.moveDirection.y < 0) //left down
+        else if (_playerMovement.MoveDirection.x < 0 && _playerMovement.MoveDirection.y < 0) //left down
         {
             if (!Physics2D.OverlapCircle(CurrentTerrainChunck.transform.Find("Left Down").position, CheckerRadius, terrainMask))
             {
@@ -92,7 +92,7 @@ public class MapController : MonoBehaviour
                 SpawnChunck();
             }
         }
-        else if (_playerMovement.moveDirection.x < 0 && _playerMovement.moveDirection.y > 0) //left up
+        else if (_playerMovement.MoveDirection.x < 0 && _playerMovement.MoveDirection.y > 0) //left up
         {
             if (!Physics2D.OverlapCircle(CurrentTerrainChunck.transform.Find("Left Up").position, CheckerRadius, terrainMask))
             {
