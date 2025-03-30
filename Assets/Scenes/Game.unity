@@ -401,8 +401,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   TerrainChuncks:
   - {fileID: 4720971522812550041, guid: 96a02e56e99754a45abce0745de5eb80, type: 3}
-  - {fileID: 4720971522812550041, guid: e19c14b74b5d5ae4bab739b3b667e755, type: 3}
-  - {fileID: 4720971522812550041, guid: 4a1118d5372456145ab9af9419409c8b, type: 3}
+  - {fileID: 4720971522812550041, guid: 59d9b1d8e2ae8fc42ab0f6bf77bbb8c2, type: 3}
+  - {fileID: 4720971522812550041, guid: 83a90d706658b3a4a8d4e6338d000667, type: 3}
   Player: {fileID: 1798613723}
   CheckerRadius: 0.2
   terrainMask:
