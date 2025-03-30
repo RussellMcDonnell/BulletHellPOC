@@ -355,6 +355,11 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &770006206 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 4720971522812550041, guid: 96a02e56e99754a45abce0745de5eb80, type: 3}
+  m_PrefabInstance: {fileID: 7740961559128484244}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1373313415
 GameObject:
   m_ObjectHideFlags: 0
@@ -365,7 +370,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1373313416}
   - component: {fileID: 1373313417}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Map Controller
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -409,8 +414,10 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 64
   CurrentTerrainChunck: {fileID: 0}
-  SpawnedChuncks: []
+  SpawnedChuncks:
+  - {fileID: 770006206}
   MaxOptimizationDistance: 50
+  OptimizationCooldownDuration: 1
 --- !u!1 &1798613723
 GameObject:
   m_ObjectHideFlags: 0
