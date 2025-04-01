@@ -5,6 +5,7 @@ using UnityEngine;
 /// </summary>
 public abstract class MeleeWeaponBehaviour : MonoBehaviour
 {
+    public WeaponScriptableObject WeaponData;
     public float DestroyAfterSeconds;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
