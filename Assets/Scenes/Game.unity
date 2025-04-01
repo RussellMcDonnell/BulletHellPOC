@@ -523,6 +523,7 @@ GameObject:
   - component: {fileID: 1798613727}
   - component: {fileID: 1798613729}
   - component: {fileID: 1798613730}
+  - component: {fileID: 1798613731}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -724,6 +725,29 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!114 &1798613731
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1798613723}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 09373916bc50c9d4ca20c825c2c00872, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Experience: 0
+  Level: 1
+  ExperienceCap: 0
+  LevelRanges:
+  - StartLevel: 1
+    EndLevel: 3
+    ExperienceCapIncrease: 100
+  - StartLevel: 4
+    EndLevel: 5
+    ExperienceCapIncrease: 200
+  CharacterData: {fileID: 11400000, guid: 5cfd1ee2ab7be1a449be9459e83c5636, type: 2}
 --- !u!1001 &767025116211730067
 PrefabInstance:
   m_ObjectHideFlags: 0
