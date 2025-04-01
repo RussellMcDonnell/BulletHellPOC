@@ -81,9 +81,20 @@ public class PlayerStats : MonoBehaviour
         }
     }
     
-    // Update is called once per frame
-    void Update()
+    public void TakeDamage(float damage)
     {
-        
+        // Reduce current health by the damage taken
+        _currentHealth -= damage;
+        if (_currentHealth <= 0)
+        {
+            Die(); // Call the die method if health is zero or less
+        }
+    }
+
+    public void Die()
+    {
+        // Handle player death (e.g., play animation, destroy object, etc.)
+        Debug.Log("Player has died!"); // Placeholder for player death handling
+        Destroy(gameObject); // Destroy the player game object
     }
 }

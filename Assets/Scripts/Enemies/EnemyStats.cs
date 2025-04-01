@@ -32,4 +32,19 @@ public class EnemyStats : MonoBehaviour
         // Handle enemy death (e.g., play animation, destroy object, etc.)
         Destroy(gameObject); // Destroy the enemy game object
     }
+
+    private void OnCollisionStay2D(Collision2D collision)
+    {
+        // Check if the object collided with has the tag "Player"
+        if (collision.gameObject.CompareTag("Player"))
+        {
+            // Get the PlayerStats component from the collided object
+            PlayerStats player = collision.gameObject.GetComponent<PlayerStats>();
+            if (player == null)
+                return; // If the player stats component is not found, exit the method
+
+            // Call the TakeDamage method on the player stats with the current damage
+            player.TakeDamage(_currentDamage);
+        }
+    }
 }

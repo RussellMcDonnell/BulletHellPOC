@@ -524,6 +524,7 @@ GameObject:
   - component: {fileID: 1798613729}
   - component: {fileID: 1798613730}
   - component: {fileID: 1798613731}
+  - component: {fileID: 1798613732}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -748,6 +749,18 @@ MonoBehaviour:
     EndLevel: 5
     ExperienceCapIncrease: 200
   CharacterData: {fileID: 11400000, guid: 5cfd1ee2ab7be1a449be9459e83c5636, type: 2}
+--- !u!114 &1798613732
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1798613723}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2d18b6eec460fa74b8fa237c911f9e78, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &767025116211730067
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -759,6 +772,10 @@ PrefabInstance:
     - target: {fileID: 706928515963355, guid: cb08e10a4b13d3b4dbacc771a7bbafa0, type: 3}
       propertyPath: m_Name
       value: Bat
+      objectReference: {fileID: 0}
+    - target: {fileID: 2884527705685459048, guid: cb08e10a4b13d3b4dbacc771a7bbafa0, type: 3}
+      propertyPath: DropsList.Array.data[0].DropRate
+      value: 100
       objectReference: {fileID: 0}
     - target: {fileID: 4413237653366054841, guid: cb08e10a4b13d3b4dbacc771a7bbafa0, type: 3}
       propertyPath: m_LocalPosition.x
