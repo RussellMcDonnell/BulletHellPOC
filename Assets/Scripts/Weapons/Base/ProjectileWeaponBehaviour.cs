@@ -3,7 +3,7 @@ using UnityEngine;
 /// <summary>
 /// Base script of all the projectile behaviours [To be placed on a prefab of a weapon that is a projectile]
 /// </summary>
-public class ProjectileWeaponBehaviour : MonoBehaviour
+public abstract class ProjectileWeaponBehaviour : MonoBehaviour
 {
     // Current stats
     protected float _currentDamage;
@@ -85,7 +85,20 @@ public class ProjectileWeaponBehaviour : MonoBehaviour
         if(collider.CompareTag("Enemy"))
         {
             EnemyStats enemy = collider.GetComponent<EnemyStats>();
+            if (enemy == null)
+                return; // If the enemy is null, exit the method
+
             enemy.TakeDamage(_currentDamage); // Make suer to use _currentDamage instead of WeaponData.Damage to use the current stats in case any damage multiplier is applied
+            ReducePierce(); // Reduce the pierce value after hitting an enemy
+        }
+    }
+
+    private void ReducePierce()
+    {
+        _currentPierce -= 1; // Reduce the pierce value by 1
+        if(_currentPierce <= 0)
+        {
+            Destroy(gameObject); // Destroy the object if pierce is 0 or less
         }
     }
 }

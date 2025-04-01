@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 433373953045732443}
   - component: {fileID: 4251987416176668652}
   - component: {fileID: 7604807804864647187}
+  - component: {fileID: -6508879798726852961}
   m_Layer: 0
   m_Name: Garlic Weapon
   m_TagString: Untagged
@@ -102,3 +103,39 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   WeaponData: {fileID: 11400000, guid: 6c755c9649412cf429bf3380883f4483, type: 2}
   DestroyAfterSeconds: 2
+--- !u!58 &-6508879798726852961
+CircleCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4846670307266477917}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_ForceSendLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ForceReceiveLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ContactCaptureLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_CallbackLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_CompositeOperation: 0
+  m_CompositeOrder: 0
+  m_Offset: {x: 0, y: 0}
+  m_Radius: 0.40625
