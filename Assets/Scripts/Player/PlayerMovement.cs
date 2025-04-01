@@ -1,14 +1,15 @@
+using System;
 using UnityEngine;
 
 public class PlayerMovement : MonoBehaviour
 {
-    //movment 
-    public float MoveSpeed;
     private Rigidbody2D _rigidBody;
-
+    
     [HideInInspector]
     public Vector2 MoveDirection;
     public Vector2 LastMoveVector;
+
+    public CharacterScriptableObject CharacterData;
 
     void Start()
     {
@@ -53,7 +54,7 @@ public class PlayerMovement : MonoBehaviour
     void Move()
     {
         // Move the player character
-        _rigidBody.MovePosition(_rigidBody.position + MoveDirection * MoveSpeed * Time.fixedDeltaTime);
-
+        //_rigidBody.MovePosition(_rigidBody.position + MoveDirection * CharacterData.MovementSpeed * Time.fixedDeltaTime);
+        _rigidBody.linearVelocity = new Vector2(MoveDirection.x * CharacterData.MovementSpeed, MoveDirection.y * CharacterData.MovementSpeed);
     }
 }

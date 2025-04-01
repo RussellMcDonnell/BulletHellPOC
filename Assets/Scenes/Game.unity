@@ -614,9 +614,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bc23f95aea7c81c469b83f240cf1d54a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  MoveSpeed: 5
   MoveDirection: {x: 0, y: 0}
   LastMoveVector: {x: 0, y: 0}
+  CharacterData: {fileID: 11400000, guid: 5cfd1ee2ab7be1a449be9459e83c5636, type: 2}
 --- !u!61 &1798613727
 BoxCollider2D:
   m_ObjectHideFlags: 0
