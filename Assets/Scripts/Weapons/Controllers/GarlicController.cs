@@ -14,7 +14,7 @@ public class GarlicController : WeaponController
         base.Attack(); // Call the base class Attack method to handle attack logic
 
         // Spawn the garlic prefab at the player's position
-        GameObject spawnedGarlic = Instantiate(WeaponData.weaponPrefab, transform.position, Quaternion.identity);
+        GameObject spawnedGarlic = Instantiate(WeaponData.WeaponPrefab, transform.position, Quaternion.identity);
         spawnedGarlic.transform.parent = transform; // So it spawns below the player
     }
 }

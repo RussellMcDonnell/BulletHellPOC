@@ -5,10 +5,25 @@ using UnityEngine;
 /// </summary>
 public class ProjectileWeaponBehaviour : MonoBehaviour
 {
-    public WeaponScriptableObject WeaponData;
+    // Current stats
+    protected float _currentDamage;
+    protected float _currentSpeed;
+    protected float _currentCooldownDuration;
+    protected float _currentPierce;
+    
     protected Vector3 _direction;
+    public WeaponScriptableObject WeaponData;
     public float DestroyAfterSeconds;
 
+
+    void Awake()
+    {
+        // Initialize the current stats to the values from the WeaponData scriptable object
+        _currentDamage = WeaponData.Damage;
+        _currentSpeed = WeaponData.Speed;
+        _currentCooldownDuration = WeaponData.CooldownDuration;
+        _currentPierce = WeaponData.Pierce;
+    }
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     protected virtual void Start()
@@ -62,5 +77,15 @@ public class ProjectileWeaponBehaviour : MonoBehaviour
 
         transform.localScale = scale; // Set the scale of the object to the new scale
         transform.rotation = Quaternion.Euler(rotation); // Set the rotation of the object to the new rotation
+    }
+
+    protected virtual void OnTriggerEnter2D(Collider2D collider)
+    {
+        //Refference the script from the collider and deal damage using TakeDamage()
+        if(collider.CompareTag("Enemy"))
+        {
+            EnemyStats enemy = collider.GetComponent<EnemyStats>();
+            enemy.TakeDamage(_currentDamage); // Make suer to use _currentDamage instead of WeaponData.Damage to use the current stats in case any damage multiplier is applied
+        }
     }
 }
