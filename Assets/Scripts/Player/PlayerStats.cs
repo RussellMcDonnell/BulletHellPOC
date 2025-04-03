@@ -26,6 +26,12 @@ public class PlayerStats : MonoBehaviour
 
     public List<LevelRange> LevelRanges;
 
+    // I-Frames
+    [Header("I-Frames")]
+    public float InvincibilityDuration; // Duration of invincibility after taking damage
+    private float _invincibilityTimer; // Timer for invincibility
+    private bool _isInvincible; // Flag to check if the player is currently invincible
+
     public CharacterScriptableObject CharacterData;
 
     private void Awake()
@@ -47,6 +53,19 @@ public class PlayerStats : MonoBehaviour
             if (Level >= LevelRanges[i].StartLevel && Level <= LevelRanges[i].EndLevel)
             {
                 ExperienceCap += LevelRanges[i].ExperienceCapIncrease;
+            }
+        }
+    }
+
+    private void Update()
+    {
+        // Update the invincibility timer if the player is invincible
+        if (_isInvincible)
+        {
+            _invincibilityTimer -= Time.deltaTime; // Decrease the timer by the time since last frame
+            if (_invincibilityTimer <= 0)
+            {
+                _isInvincible = false; // Reset the invincibility flag when the timer reaches zero
             }
         }
     }
@@ -83,6 +102,12 @@ public class PlayerStats : MonoBehaviour
     
     public void TakeDamage(float damage)
     {
+         // If the player is invincible, ignore damage
+        if (_isInvincible) return;
+
+        _invincibilityTimer = InvincibilityDuration; // Reset the invincibility timer
+        _isInvincible = true; // Set the player to invincible
+
         // Reduce current health by the damage taken
         _currentHealth -= damage;
         if (_currentHealth <= 0)

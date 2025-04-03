@@ -748,6 +748,7 @@ MonoBehaviour:
   - StartLevel: 4
     EndLevel: 5
     ExperienceCapIncrease: 200
+  InvincibilityDuration: 0.5
   CharacterData: {fileID: 11400000, guid: 5cfd1ee2ab7be1a449be9459e83c5636, type: 2}
 --- !u!114 &1798613732
 MonoBehaviour:
