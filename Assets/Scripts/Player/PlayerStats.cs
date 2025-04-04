@@ -122,4 +122,16 @@ public class PlayerStats : MonoBehaviour
         Debug.Log("Player has died!"); // Placeholder for player death handling
         Destroy(gameObject); // Destroy the player game object
     }
+
+    public void RestoreHealth(float healAmount)
+    {
+        if (_currentHealth == CharacterData.MaxHealth) return; // If health is already at max, do nothing
+
+        // Restore health to the player
+        _currentHealth += healAmount;
+        if (_currentHealth > CharacterData.MaxHealth)
+        {
+            _currentHealth = CharacterData.MaxHealth; // Ensure health does not exceed max health
+        }
+    }
 }

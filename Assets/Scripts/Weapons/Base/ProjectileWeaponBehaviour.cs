@@ -10,7 +10,7 @@ public abstract class ProjectileWeaponBehaviour : MonoBehaviour
     protected float _currentSpeed;
     protected float _currentCooldownDuration;
     protected float _currentPierce;
-    
+
     protected Vector3 _direction;
     public WeaponScriptableObject WeaponData;
     public float DestroyAfterSeconds;
@@ -42,35 +42,35 @@ public abstract class ProjectileWeaponBehaviour : MonoBehaviour
         Vector3 rotation = transform.localRotation.eulerAngles;
 
         // set the rotation of the object based on the direction
-        if(directionX < 0 && directionY == 0) //left
+        if (directionX < 0 && directionY == 0) //left
         {
             rotation.z = 135f;
         }
-        else if(directionX > 0 && directionY == 0) //right
+        else if (directionX > 0 && directionY == 0) //right
         {
             rotation.z = -45f;
         }
-        else if(directionX == 0 && directionY < 0) //down
+        else if (directionX == 0 && directionY < 0) //down
         {
             rotation.z = -135f;
         }
-        else if(directionX == 0 && directionY > 0) //up
+        else if (directionX == 0 && directionY > 0) //up
         {
             rotation.z = 45f;
         }
-        else if(directionX < 0 && directionY < 0) //down left
+        else if (directionX < 0 && directionY < 0) //down left
         {
             rotation.z = -180f;
         }
-        else if(directionX > 0 && directionY < 0) //down right
+        else if (directionX > 0 && directionY < 0) //down right
         {
             rotation.z = -90f;
         }
-        else if(directionX < 0 && directionY > 0) //up left
+        else if (directionX < 0 && directionY > 0) //up left
         {
             rotation.z = 90f;
         }
-        else if(directionX > 0 && directionY > 0) //up right
+        else if (directionX > 0 && directionY > 0) //up right
         {
             rotation.z = 0f;
         }
@@ -82,7 +82,7 @@ public abstract class ProjectileWeaponBehaviour : MonoBehaviour
     protected virtual void OnTriggerEnter2D(Collider2D collider)
     {
         //Refference the script from the collider and deal damage using TakeDamage()
-        if(collider.CompareTag("Enemy"))
+        if (collider.CompareTag("Enemy"))
         {
             EnemyStats enemy = collider.GetComponent<EnemyStats>();
             if (enemy == null)
@@ -91,12 +91,20 @@ public abstract class ProjectileWeaponBehaviour : MonoBehaviour
             enemy.TakeDamage(_currentDamage); // Make suer to use _currentDamage instead of WeaponData.Damage to use the current stats in case any damage multiplier is applied
             ReducePierce(); // Reduce the pierce value after hitting an enemy
         }
+        else if (collider.CompareTag("Prop"))
+        {
+            if (collider.gameObject.TryGetComponent(out BreakableProps breakableProp))
+            {
+                breakableProp.TakeDamage(_currentDamage); // Make sure to use _currentDamage instead of WeaponData.Damage to use the current stats in case any damage multiplier is applied
+                ReducePierce(); // Reduce the pierce value after hitting a prop
+            }
+        }
     }
 
     private void ReducePierce()
     {
         _currentPierce -= 1; // Reduce the pierce value by 1
-        if(_currentPierce <= 0)
+        if (_currentPierce <= 0)
         {
             Destroy(gameObject); // Destroy the object if pierce is 0 or less
         }

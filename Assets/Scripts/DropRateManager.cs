@@ -8,7 +8,7 @@ public class DropRateManager : MonoBehaviour
     {
         public string Name;
         public GameObject ItemPrefab;
-        
+
         [Range(0f, 100f)]
         [Tooltip("The drop rate of the item. 0% means it will never drop, 100% means it will always drop.")]
         public float DropRate;
@@ -18,6 +18,9 @@ public class DropRateManager : MonoBehaviour
 
     private void OnDestroy()
     {
+        // Only run this logic if the application is not quitting
+        if (Application.isPlaying == false) return;
+
         float randomNumber = UnityEngine.Random.Range(0f, 100f);
         List<Drops> possibleDrops = new List<Drops>();
 
