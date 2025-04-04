@@ -3,28 +3,30 @@ using UnityEngine;
 public class EnemyStats : MonoBehaviour
 {
     public EnemyScriptableObject EnemyData;
-
     private DropRateManager _dropRateManager;
-    
+
     // current stats
-    private float _currentHealth;
-    private float _currentDamage;
-    private float _currentMovementSpeed;
+    [HideInInspector]
+    public float CurrentHealth;
+    [HideInInspector]
+    public float CurrentDamage;
+    [HideInInspector]
+    public float CurrentMovementSpeed;
     
 
     private void Awake()
     {
         // Initialize current stats based on the scriptable object values
-        _currentHealth = EnemyData.MaxHealth;
-        _currentDamage = EnemyData.Damage;
-        _currentMovementSpeed = EnemyData.MovementSpeed;
+        CurrentHealth = EnemyData.MaxHealth;
+        CurrentDamage = EnemyData.Damage;
+        CurrentMovementSpeed = EnemyData.MovementSpeed;
         _dropRateManager = GetComponent<DropRateManager>();
     }
 
     public void TakeDamage(float damage)
     {
-        _currentHealth -= damage; // Reduce current health by the damage taken
-        if (_currentHealth <= 0)
+        CurrentHealth -= damage; // Reduce current health by the damage taken
+        if (CurrentHealth <= 0)
         {
             Die(); // Call the die method if health is zero or less
         }
@@ -54,7 +56,7 @@ public class EnemyStats : MonoBehaviour
                 return; // If the player stats component is not found, exit the method
 
             // Call the TakeDamage method on the player stats with the current damage
-            player.TakeDamage(_currentDamage);
+            player.TakeDamage(CurrentDamage);
         }
     }
 }

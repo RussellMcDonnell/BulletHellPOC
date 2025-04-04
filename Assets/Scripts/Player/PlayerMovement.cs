@@ -4,16 +4,16 @@ using UnityEngine;
 public class PlayerMovement : MonoBehaviour
 {
     private Rigidbody2D _rigidBody;
+    private PlayerStats _playerStats;
     
     [HideInInspector]
     public Vector2 MoveDirection;
     public Vector2 LastMoveVector;
 
-    public CharacterScriptableObject CharacterData;
-
     void Start()
     {
         _rigidBody = GetComponent<Rigidbody2D>();
+        _playerStats = GetComponent<PlayerStats>();
 
         LastMoveVector = new Vector2(1f, 0f); // Set a starting direction so projectiles will still work even if they player never moves
     }
@@ -55,6 +55,6 @@ public class PlayerMovement : MonoBehaviour
     {
         // Move the player character
         //_rigidBody.MovePosition(_rigidBody.position + MoveDirection * CharacterData.MovementSpeed * Time.fixedDeltaTime);
-        _rigidBody.linearVelocity = new Vector2(MoveDirection.x * CharacterData.MovementSpeed, MoveDirection.y * CharacterData.MovementSpeed);
+        _rigidBody.linearVelocity = new Vector2(MoveDirection.x * _playerStats.CurrentMovementSpeed, MoveDirection.y * _playerStats.CurrentMovementSpeed);
     }
 }
