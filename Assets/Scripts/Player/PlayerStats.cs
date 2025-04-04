@@ -73,6 +73,8 @@ public class PlayerStats : MonoBehaviour
                 _isInvincible = false; // Reset the invincibility flag when the timer reaches zero
             }
         }
+        
+        Recover(); // Call the recover method to restore health over time
     }
 
     public void IncreaseExperience(int amount)
@@ -134,6 +136,18 @@ public class PlayerStats : MonoBehaviour
 
         // Restore health to the player
         CurrentHealth += healAmount;
+        if (CurrentHealth > CharacterData.MaxHealth)
+        {
+            CurrentHealth = CharacterData.MaxHealth; // Ensure health does not exceed max health
+        }
+    }
+
+    private void Recover()
+    {
+        if (CurrentHealth > CharacterData.MaxHealth) return; // If health is already at max, do nothing
+
+        // Restore health over time based on the recovery rate
+        CurrentHealth += CurrentRecovery * Time.deltaTime;
         if (CurrentHealth > CharacterData.MaxHealth)
         {
             CurrentHealth = CharacterData.MaxHealth; // Ensure health does not exceed max health
