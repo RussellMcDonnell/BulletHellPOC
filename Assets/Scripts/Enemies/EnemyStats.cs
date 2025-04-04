@@ -4,10 +4,13 @@ public class EnemyStats : MonoBehaviour
 {
     public EnemyScriptableObject EnemyData;
 
+    private DropRateManager _dropRateManager;
+    
     // current stats
     private float _currentHealth;
     private float _currentDamage;
     private float _currentMovementSpeed;
+    
 
     private void Awake()
     {
@@ -15,7 +18,7 @@ public class EnemyStats : MonoBehaviour
         _currentHealth = EnemyData.MaxHealth;
         _currentDamage = EnemyData.Damage;
         _currentMovementSpeed = EnemyData.MovementSpeed;
-
+        _dropRateManager = GetComponent<DropRateManager>();
     }
 
     public void TakeDamage(float damage)
@@ -27,9 +30,16 @@ public class EnemyStats : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Method to handle enemy death (e.g., play animation, destroy object, etc.)
+    /// </summary>
     public void Die()
     {
-        // Handle enemy death (e.g., play animation, destroy object, etc.)
+        if(_dropRateManager != null)
+        {
+            _dropRateManager.HandleDrop(); // Call the drop loot method if the drop rate manager is present
+        }
+
         Destroy(gameObject); // Destroy the enemy game object
     }
 

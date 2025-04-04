@@ -16,7 +16,7 @@ public class DropRateManager : MonoBehaviour
 
     public List<Drops> DropsList;
 
-    private void OnDestroy()
+    public void HandleDrop()
     {
         // Only run this logic if the application is not quitting
         if (Application.isPlaying == false) return;
