@@ -2,6 +2,11 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+/// <summary>
+/// This class is responsible for spawning enemies in waves.
+/// TODO this could be improved by using a pool of enemies instead of instantiating them every time.
+/// TODO this could be improved/changed the way waves are spawned to better fit the game design.
+/// </summary>
 public class EnemySpawner : MonoBehaviour
 {
     private Transform _playerTransform;
@@ -30,6 +35,9 @@ public class EnemySpawner : MonoBehaviour
 
     [Header("Spawner Attributes")]
     private float _spawnTimer; // Timer used to determine when to spawn the next enemy
+    private int _enemiesAlive;
+    public int MaxEnemiesAllowed; // The maximum number of enemies allowed to be spawned on the map at once
+    public bool MaxEnemiesReached = false; // Flag to check if the maximum number of enemies has been reached
     public float WaveInterval; // The interval between waves
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
@@ -83,11 +91,16 @@ public class EnemySpawner : MonoBehaviour
 
     private void SpawnEnemies()
     {
-        // Check if the current wave has reached its quota
-        if (Waves[CurrentWaveIndex].SpawnCount >= Waves[CurrentWaveIndex].WaveQuota)
+        // Reset the flag for maximum enemies reached
+        if(_enemiesAlive < MaxEnemiesAllowed)
         {
-            Debug.Log("Wave " + Waves[CurrentWaveIndex].WaveName + " completed!");
-            return; // Exit if the wave is complete
+            MaxEnemiesReached = false; // Reset the flag if the number of enemies is below the maximum allowed
+        }
+
+        // Check if the maximum number of enemies has been reached or the current wave has reached its quota
+        if (MaxEnemiesReached || Waves[CurrentWaveIndex].SpawnCount >= Waves[CurrentWaveIndex].WaveQuota)
+        {
+            return;
         }
 
         // Loop through each enemy group in the current wave
@@ -97,14 +110,28 @@ public class EnemySpawner : MonoBehaviour
             if (enemyGroup.SpawnedCount >= enemyGroup.EnemyCount)
                 continue; // Skip to the next group if all enemies are spawned
 
+            // Limit the number of enemies that can be spawned at once
+            if (_enemiesAlive >= MaxEnemiesAllowed)
+            {
+                MaxEnemiesReached = true; // Set the flag if the maximum number of enemies is reached
+                return; // Exit if the maximum number of enemies is reached
+            }
+
             Vector2 spawnPosition = new Vector2(_playerTransform.position.x + Random.Range(-10f, 10f), _playerTransform.position.y + Random.Range(-10f, 10f));
 
             // Spawn the enemy prefab at the spawner's position
-            GameObject spawnedEnemy = Instantiate(enemyGroup.EnemyPrefab, spawnPosition, Quaternion.identity);
+            Instantiate(enemyGroup.EnemyPrefab, spawnPosition, Quaternion.identity);
 
             // Increment the spawn count for this group and the total spawn count for the wave
             enemyGroup.SpawnedCount++;
             Waves[CurrentWaveIndex].SpawnCount++;
+            _enemiesAlive++; // Increment the total number of enemies alive
         }
+    }
+
+    // Method to be called when an enemy dies
+    public void OnEnemyDeath()
+    {
+        _enemiesAlive--; // Decrement the total number of enemies alive when one dies
     }
 }

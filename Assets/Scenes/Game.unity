@@ -532,14 +532,26 @@ MonoBehaviour:
   Waves:
   - WaveName: Wave 1
     EnemyGroups:
-    - EnemyName: 
-      EnemyPrefab: {fileID: 0}
-      EnemyCount: 3
+    - EnemyName: Bat
+      EnemyPrefab: {fileID: 706928515963355, guid: cb08e10a4b13d3b4dbacc771a7bbafa0, type: 3}
+      EnemyCount: 5
       SpawnedCount: 0
     WaveQuota: 0
-    SpawnInterval: 0
+    SpawnInterval: 1
+    SpawnCount: 0
+  - WaveName: Wave 2
+    EnemyGroups:
+    - EnemyName: Red Bat
+      EnemyPrefab: {fileID: 706928515963355, guid: 4349e5ee31359024782cf5d0fb1bc7aa, type: 3}
+      EnemyCount: 2
+      SpawnedCount: 0
+    WaveQuota: 0
+    SpawnInterval: 1
     SpawnCount: 0
   CurrentWaveIndex: 0
+  MaxEnemiesAllowed: 4
+  MaxEnemiesReached: 0
+  WaveInterval: 3
 --- !u!4 &1408234949
 Transform:
   m_ObjectHideFlags: 0
@@ -812,6 +824,10 @@ PrefabInstance:
     - target: {fileID: 706928515963355, guid: cb08e10a4b13d3b4dbacc771a7bbafa0, type: 3}
       propertyPath: m_Name
       value: Bat
+      objectReference: {fileID: 0}
+    - target: {fileID: 706928515963355, guid: cb08e10a4b13d3b4dbacc771a7bbafa0, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2884527705685459048, guid: cb08e10a4b13d3b4dbacc771a7bbafa0, type: 3}
       propertyPath: DropsList.Array.data[0].DropRate

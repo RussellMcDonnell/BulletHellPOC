@@ -59,4 +59,11 @@ public class EnemyStats : MonoBehaviour
             player.TakeDamage(CurrentDamage);
         }
     }
+
+    private void OnDestroy()
+    {
+        // TODO this could be converted to an event system
+        EnemySpawner enemySpawner = FindAnyObjectByType<EnemySpawner>(); // Find the enemy spawner in the scene
+        enemySpawner.OnEnemyDeath(); // Notify the enemy spawner of the enemy's death
+    }
 }
