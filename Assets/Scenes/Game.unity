@@ -531,7 +531,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2d18b6eec460fa74b8fa237c911f9e78, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  PullSpeed: 300
+  PullSpeed: 5
 --- !u!1 &1373313415
 GameObject:
   m_ObjectHideFlags: 0
@@ -837,6 +837,7 @@ MonoBehaviour:
     ExperienceCapIncrease: 200
   InvincibilityDuration: 0.5
   CharacterData: {fileID: 11400000, guid: 5cfd1ee2ab7be1a449be9459e83c5636, type: 2}
+  PlayerCollector: {fileID: 0}
 --- !u!1001 &767025116211730067
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -891,6 +892,10 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4413237653366054841, guid: cb08e10a4b13d3b4dbacc771a7bbafa0, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 9214259824328978438, guid: cb08e10a4b13d3b4dbacc771a7bbafa0, type: 3}
+      propertyPath: m_Enabled
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []

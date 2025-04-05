@@ -8,7 +8,7 @@ public class PlayerStats : MonoBehaviour
     public float CurrentHealth;
     [HideInInspector]
     public float CurrentRecovery;
-    [HideInInspector]
+    //[HideInInspector]
     public float CurrentMovementSpeed;
     [HideInInspector]
     public float CurrentMight;
@@ -40,6 +40,7 @@ public class PlayerStats : MonoBehaviour
     private bool _isInvincible; // Flag to check if the player is currently invincible
 
     public CharacterScriptableObject CharacterData;
+    public PlayerCollector PlayerCollector;
 
     private void Awake()
     {
@@ -50,6 +51,10 @@ public class PlayerStats : MonoBehaviour
         CurrentMight = CharacterData.Might;
         CurrentProjectileSpeed = CharacterData.ProjectileSpeed;
         CurrentMagnet = CharacterData.Magnet;
+
+        // Initialize the player collector component
+        PlayerCollector = GetComponentInChildren<PlayerCollector>();
+        PlayerCollector.SetDetectorRadius(CurrentMagnet); // Set the detector radius based on the character data
     }
 
     private void Start()

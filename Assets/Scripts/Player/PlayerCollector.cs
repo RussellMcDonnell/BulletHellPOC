@@ -1,35 +1,31 @@
 using UnityEngine;
 
+[RequireComponent(typeof(CircleCollider2D))]
 public class PlayerCollector : MonoBehaviour
 {
     private PlayerStats _playerStats;
-    private CircleCollider2D _playerCollector;
+    private CircleCollider2D _detector;
 
     public float PullSpeed;
 
     private void Start()
     {
-        _playerStats = FindAnyObjectByType<PlayerStats>();
-        _playerCollector = GetComponent<CircleCollider2D>();
+        _playerStats = GetComponentInParent<PlayerStats>();
     }
 
-    private void Update()
+    public void SetDetectorRadius(float radius)
     {
-        // Update player collector to match magnet radius
-        _playerCollector.radius = _playerStats.CurrentMagnet;
+        if(!_detector)
+            _detector = GetComponent<CircleCollider2D>();
+        _detector.radius = radius;
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        // Check if the collided object has the ICollectible interface
-        if (collision.TryGetComponent(out ICollectible collectible))
+        // Check if the collided object is a pickup
+        if (collision.TryGetComponent(out Pickup collectible))
         {
-            // Pulling animation
-            Rigidbody2D rb = collision.GetComponent<Rigidbody2D>();
-            Vector2 forceDireation = ((Vector2)transform.position - rb.position).normalized; // Direction to the player
-            rb.AddForce(forceDireation.normalized * PullSpeed * Time.deltaTime, ForceMode2D.Impulse); // Pull the collectible towards the player
-
-            collectible.Collect();
+            collectible.Collect(_playerStats, PullSpeed);
         }
     }
 }
