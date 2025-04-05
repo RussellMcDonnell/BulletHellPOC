@@ -12,7 +12,25 @@ public class EnemyStats : MonoBehaviour
     public float CurrentDamage;
     [HideInInspector]
     public float CurrentMovementSpeed;
+
+    public float DespawnDistance = 20f;
+    private Transform _playerTransform;
     
+
+    private void Start()
+    {
+        // Find the player transform in the scene
+        _playerTransform = FindAnyObjectByType<PlayerStats>().transform;
+    }
+
+    private void Update()
+    {
+        // Check if the enemy is outside the despawn distance from the player
+        if (Vector2.Distance(_playerTransform.position, transform.position) > DespawnDistance)
+        {
+            ReturnEnemy();
+        }
+    }
 
     private void Awake()
     {
@@ -65,5 +83,13 @@ public class EnemyStats : MonoBehaviour
         // TODO this could be converted to an event system
         EnemySpawner enemySpawner = FindAnyObjectByType<EnemySpawner>(); // Find the enemy spawner in the scene
         enemySpawner.OnEnemyDeath(); // Notify the enemy spawner of the enemy's death
+    }
+
+    private void ReturnEnemy()
+    {
+       EnemySpawner enemySpawner = FindAnyObjectByType<EnemySpawner>(); // Find the enemy spawner in the scene
+       
+       // Return the enemy to a random spawn position relative to the player
+       transform.position = _playerTransform.position + enemySpawner.RelativeSpawnPositions[Random.Range(0, enemySpawner.RelativeSpawnPositions.Count)].position;
     }
 }
