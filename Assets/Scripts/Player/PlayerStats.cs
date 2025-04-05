@@ -8,7 +8,7 @@ public class PlayerStats : MonoBehaviour
     public float CurrentHealth;
     [HideInInspector]
     public float CurrentRecovery;
-    //[HideInInspector]
+    [HideInInspector]
     public float CurrentMovementSpeed;
     [HideInInspector]
     public float CurrentMight;
@@ -39,18 +39,21 @@ public class PlayerStats : MonoBehaviour
     private float _invincibilityTimer; // Timer for invincibility
     private bool _isInvincible; // Flag to check if the player is currently invincible
 
-    public CharacterScriptableObject CharacterData;
+    private CharacterScriptableObject _characterData;
     public PlayerCollector PlayerCollector;
 
     private void Awake()
     {
+        _characterData = CharacterSelector.GetCharacterData(); // Get the character data from the CharacterSelector singleton
+        CharacterSelector.Instance.DestroySingleton();
+
         // Initialize the current stats to the values from the CharacterData scriptable object
-        CurrentHealth = CharacterData.MaxHealth;
-        CurrentRecovery = CharacterData.Recovery;
-        CurrentMovementSpeed = CharacterData.MovementSpeed;
-        CurrentMight = CharacterData.Might;
-        CurrentProjectileSpeed = CharacterData.ProjectileSpeed;
-        CurrentMagnet = CharacterData.Magnet;
+        CurrentHealth = _characterData.MaxHealth;
+        CurrentRecovery = _characterData.Recovery;
+        CurrentMovementSpeed = _characterData.MovementSpeed;
+        CurrentMight = _characterData.Might;
+        CurrentProjectileSpeed = _characterData.ProjectileSpeed;
+        CurrentMagnet = _characterData.Magnet;
 
         // Initialize the player collector component
         PlayerCollector = GetComponentInChildren<PlayerCollector>();
@@ -140,25 +143,25 @@ public class PlayerStats : MonoBehaviour
 
     public void RestoreHealth(float healAmount)
     {
-        if (CurrentHealth == CharacterData.MaxHealth) return; // If health is already at max, do nothing
+        if (CurrentHealth == _characterData.MaxHealth) return; // If health is already at max, do nothing
 
         // Restore health to the player
         CurrentHealth += healAmount;
-        if (CurrentHealth > CharacterData.MaxHealth)
+        if (CurrentHealth > _characterData.MaxHealth)
         {
-            CurrentHealth = CharacterData.MaxHealth; // Ensure health does not exceed max health
+            CurrentHealth = _characterData.MaxHealth; // Ensure health does not exceed max health
         }
     }
 
     private void Recover()
     {
-        if (CurrentHealth > CharacterData.MaxHealth) return; // If health is already at max, do nothing
+        if (CurrentHealth > _characterData.MaxHealth) return; // If health is already at max, do nothing
 
         // Restore health over time based on the recovery rate
         CurrentHealth += CurrentRecovery * Time.deltaTime;
-        if (CurrentHealth > CharacterData.MaxHealth)
+        if (CurrentHealth > _characterData.MaxHealth)
         {
-            CurrentHealth = CharacterData.MaxHealth; // Ensure health does not exceed max health
+            CurrentHealth = _characterData.MaxHealth; // Ensure health does not exceed max health
         }
     }
 }
