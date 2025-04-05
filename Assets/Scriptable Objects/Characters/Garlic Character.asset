@@ -10,11 +10,11 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 4094cd3b9bbd9344d9b1dffdfa2d69aa, type: 3}
-  m_Name: Garlic Character 1
+  m_Name: Garlic Character
   m_EditorClassIdentifier: 
   _movementSpeed: 5
   _maxHealth: 200
-  _startingWeapon: {fileID: 0}
+  _startingWeapon: {fileID: 8729800897727519446, guid: 0306694a94e5b364e8a1af34dfef8a93, type: 3}
   _recovery: 1
   _might: 0
   _projectileSpeed: 0

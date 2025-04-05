@@ -15,6 +15,6 @@ public class GarlicController : WeaponController
 
         // Spawn the garlic prefab at the player's position
         GameObject spawnedGarlic = Instantiate(WeaponData.WeaponPrefab, transform.position, Quaternion.identity);
-        spawnedGarlic.transform.parent = transform; // So it spawns below the player
+        spawnedGarlic.transform.position = transform.position; // So it spawns below the player
     }
 }

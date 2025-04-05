@@ -17,6 +17,9 @@ public class PlayerStats : MonoBehaviour
     [HideInInspector]
     public float CurrentMagnet;
 
+    // Spawned Weapons
+    public List<GameObject> SpawnedWeapons;
+
     // Experience and level of the Player
     public int Experience = 0;
     public int Level = 1;
@@ -58,6 +61,9 @@ public class PlayerStats : MonoBehaviour
         // Initialize the player collector component
         PlayerCollector = GetComponentInChildren<PlayerCollector>();
         PlayerCollector.SetDetectorRadius(CurrentMagnet); // Set the detector radius based on the character data
+
+        //Spawn the staring weapon
+        SpwanWeapon(_characterData.StartingWeapon); // Spawn the starting weapon for the player
     }
 
     private void Start()
@@ -163,5 +169,13 @@ public class PlayerStats : MonoBehaviour
         {
             CurrentHealth = _characterData.MaxHealth; // Ensure health does not exceed max health
         }
+    }
+
+    public void SpwanWeapon(GameObject weapon)
+    {
+        // Spawn a weapon and add it to the list of spawned weapons
+        GameObject spawnedWeapon = Instantiate(weapon, transform.position, Quaternion.identity);
+        spawnedWeapon.transform.SetParent(transform); // Set the parent of the spawned weapon to the player
+        SpawnedWeapons.Add(spawnedWeapon);
     }
 }
