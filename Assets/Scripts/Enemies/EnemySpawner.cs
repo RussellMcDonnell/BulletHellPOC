@@ -40,6 +40,9 @@ public class EnemySpawner : MonoBehaviour
     public bool MaxEnemiesReached = false; // Flag to check if the maximum number of enemies has been reached
     public float WaveInterval; // The interval between waves
 
+    [Header("Spawn Positions")]
+    public List<Transform> RelativeSpawnPositions; // List of spawn positions for the enemies
+
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -116,11 +119,9 @@ public class EnemySpawner : MonoBehaviour
                 MaxEnemiesReached = true; // Set the flag if the maximum number of enemies is reached
                 return; // Exit if the maximum number of enemies is reached
             }
-
-            Vector2 spawnPosition = new Vector2(_playerTransform.position.x + Random.Range(-10f, 10f), _playerTransform.position.y + Random.Range(-10f, 10f));
-
-            // Spawn the enemy prefab at the spawner's position
-            Instantiate(enemyGroup.EnemyPrefab, spawnPosition, Quaternion.identity);
+            
+            // Spawn the enemy prefab at a random spawn position relative to the player
+            Instantiate(enemyGroup.EnemyPrefab, _playerTransform.position + RelativeSpawnPositions[Random.Range(0, RelativeSpawnPositions.Count)].position, Quaternion.identity);
 
             // Increment the spawn count for this group and the total spawn count for the wave
             enemyGroup.SpawnedCount++;
