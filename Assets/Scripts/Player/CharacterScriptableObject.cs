@@ -15,6 +15,8 @@ public class CharacterScriptableObject : ScriptableObject
     private float _might;
     [SerializeField]
     private float _projectileSpeed;
+    [SerializeField]
+    private float _magnet;
 
     public float MovementSpeed { get => _movementSpeed; private set => _movementSpeed = value; }
     public float MaxHealth { get => _maxHealth; private set => _maxHealth = value; }
@@ -22,4 +24,5 @@ public class CharacterScriptableObject : ScriptableObject
     public float Recovery { get => _recovery; private set => _recovery = value; }
     public float Might { get => _might; private set => _might = value; }
     public float ProjectileSpeed { get => _projectileSpeed; private set => _projectileSpeed = value; }
+    public float Magnet { get => _magnet; private set => _magnet = value; }
 }

@@ -450,6 +450,88 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   WeaponData: {fileID: 11400000, guid: 8dd723e0cf0809942922aa1e139be20f, type: 2}
+--- !u!1 &1127453870
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1127453871}
+  - component: {fileID: 1127453873}
+  - component: {fileID: 1127453872}
+  m_Layer: 0
+  m_Name: Collector
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1127453871
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1127453870}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1798613725}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!58 &1127453872
+CircleCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1127453870}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_ForceSendLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ForceReceiveLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ContactCaptureLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_CallbackLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_CompositeOperation: 0
+  m_CompositeOrder: 0
+  m_Offset: {x: 0, y: 0}
+  m_Radius: 0.5
+--- !u!114 &1127453873
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1127453870}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2d18b6eec460fa74b8fa237c911f9e78, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  PullSpeed: 300
 --- !u!1 &1373313415
 GameObject:
   m_ObjectHideFlags: 0
@@ -524,7 +606,6 @@ GameObject:
   - component: {fileID: 1798613729}
   - component: {fileID: 1798613730}
   - component: {fileID: 1798613731}
-  - component: {fileID: 1798613732}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -602,6 +683,7 @@ Transform:
   m_Children:
   - {fileID: 789698850}
   - {fileID: 26805831}
+  - {fileID: 1127453871}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1798613726
@@ -618,7 +700,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   MoveDirection: {x: 0, y: 0}
   LastMoveVector: {x: 0, y: 0}
-  CharacterData: {fileID: 11400000, guid: 5cfd1ee2ab7be1a449be9459e83c5636, type: 2}
 --- !u!61 &1798613727
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -738,6 +819,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 09373916bc50c9d4ca20c825c2c00872, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  CurrentHealth: 0
+  CurrentRecovery: 0
+  CurrentMovementSpeed: 0
+  CurrentMight: 0
+  CurrentProjectileSpeed: 0
+  CurrentMagnet: 0
   Experience: 0
   Level: 1
   ExperienceCap: 0
@@ -750,18 +837,6 @@ MonoBehaviour:
     ExperienceCapIncrease: 200
   InvincibilityDuration: 0.5
   CharacterData: {fileID: 11400000, guid: 5cfd1ee2ab7be1a449be9459e83c5636, type: 2}
---- !u!114 &1798613732
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1798613723}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2d18b6eec460fa74b8fa237c911f9e78, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1001 &767025116211730067
 PrefabInstance:
   m_ObjectHideFlags: 0

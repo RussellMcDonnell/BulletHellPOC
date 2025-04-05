@@ -15,6 +15,7 @@ MonoBehaviour:
   _movementSpeed: 5
   _maxHealth: 200
   _startingWeapon: {fileID: 0}
-  _recovery: 0
+  _recovery: 1
   _might: 0
   _projectileSpeed: 0
+  _magnet: 1.6
