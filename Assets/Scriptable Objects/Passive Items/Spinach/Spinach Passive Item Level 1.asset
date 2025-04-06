@@ -14,4 +14,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _multiplier: 100
   _level: 1
-  _nextLevelPrefab: {fileID: 0}
+  _nextLevelPrefab: {fileID: 5858317722639031567, guid: d2517245e19e7cc439cc92ceb18e8217, type: 3}
