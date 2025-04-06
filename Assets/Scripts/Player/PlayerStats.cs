@@ -17,9 +17,6 @@ public class PlayerStats : MonoBehaviour
     [HideInInspector]
     public float CurrentMagnet;
 
-    // Spawned Weapons
-    public List<GameObject> SpawnedWeapons;
-
     // Experience and level of the Player
     public int Experience = 0;
     public int Level = 1;
@@ -45,10 +42,16 @@ public class PlayerStats : MonoBehaviour
     private CharacterScriptableObject _characterData;
     public PlayerCollector PlayerCollector;
 
+    private InventoryManager _inventoryManager;
+    public int WeaponIndex;
+    public int PassiveItemIndex;
+
     private void Awake()
     {
         _characterData = CharacterSelector.GetCharacterData(); // Get the character data from the CharacterSelector singleton
         CharacterSelector.Instance.DestroySingleton();
+
+        _inventoryManager = GetComponent<InventoryManager>(); // Get the InventoryManager component from the player
 
         // Initialize the current stats to the values from the CharacterData scriptable object
         CurrentHealth = _characterData.MaxHealth;
@@ -173,9 +176,17 @@ public class PlayerStats : MonoBehaviour
 
     public void SpwanWeapon(GameObject weapon)
     {
+        if (WeaponIndex >= _inventoryManager.WeaponSlots.Count -1)
+        {
+            Debug.LogError("Trying to add a weapon when the Inventory slots are already full!"); // Log an error if there are no available weapon slots
+            return; // Exit the method if there are no available slots
+        }
+
+
         // Spawn a weapon and add it to the list of spawned weapons
         GameObject spawnedWeapon = Instantiate(weapon, transform.position, Quaternion.identity);
         spawnedWeapon.transform.SetParent(transform); // Set the parent of the spawned weapon to the player
-        SpawnedWeapons.Add(spawnedWeapon);
+        _inventoryManager.AddWeapon(WeaponIndex, spawnedWeapon.GetComponent<WeaponController>()); // Add the weapon to the inventory slot
+        WeaponIndex++; // Increment the weapon index for the next weapon
     }
 }
