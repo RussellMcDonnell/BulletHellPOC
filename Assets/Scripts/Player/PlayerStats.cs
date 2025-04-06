@@ -43,8 +43,12 @@ public class PlayerStats : MonoBehaviour
     public PlayerCollector PlayerCollector;
 
     private InventoryManager _inventoryManager;
-    public int WeaponIndex;
-    public int PassiveItemIndex;
+    private int _weaponIndex;
+    private int _passiveItemIndex;
+
+    // TODO remove after testing, Test passive items for spawning
+    public GameObject FirstPassiveItemTest, SecondPassiveItemTest;
+    public GameObject SecondWeaponTest;
 
     private void Awake()
     {
@@ -66,7 +70,12 @@ public class PlayerStats : MonoBehaviour
         PlayerCollector.SetDetectorRadius(CurrentMagnet); // Set the detector radius based on the character data
 
         //Spawn the staring weapon
-        SpwanWeapon(_characterData.StartingWeapon); // Spawn the starting weapon for the player
+        SpwanWeapon(_characterData.StartingWeapon); // Spawn the starting weapon for the player        
+
+        // TODO remove after testing
+        SpwanWeapon(SecondWeaponTest); // Spawn the second weapon for testing
+        SpawnPassiveItem(FirstPassiveItemTest); // Spawn the first passive item for testing
+        SpawnPassiveItem(SecondPassiveItemTest); // Spawn the second passive item for testing
     }
 
     private void Start()
@@ -176,7 +185,7 @@ public class PlayerStats : MonoBehaviour
 
     public void SpwanWeapon(GameObject weapon)
     {
-        if (WeaponIndex >= _inventoryManager.WeaponSlots.Count -1)
+        if (_weaponIndex >= _inventoryManager.WeaponSlots.Count -1)
         {
             Debug.LogError("Trying to add a weapon when the Inventory slots are already full!"); // Log an error if there are no available weapon slots
             return; // Exit the method if there are no available slots
@@ -186,7 +195,22 @@ public class PlayerStats : MonoBehaviour
         // Spawn a weapon and add it to the list of spawned weapons
         GameObject spawnedWeapon = Instantiate(weapon, transform.position, Quaternion.identity);
         spawnedWeapon.transform.SetParent(transform); // Set the parent of the spawned weapon to the player
-        _inventoryManager.AddWeapon(WeaponIndex, spawnedWeapon.GetComponent<WeaponController>()); // Add the weapon to the inventory slot
-        WeaponIndex++; // Increment the weapon index for the next weapon
+        _inventoryManager.AddWeapon(_weaponIndex, spawnedWeapon.GetComponent<WeaponController>()); // Add the weapon to the inventory slot
+        _weaponIndex++; // Increment the weapon index for the next weapon
+    }
+
+    public void SpawnPassiveItem(GameObject passiveItem)
+    {
+        if (_passiveItemIndex >= _inventoryManager.PassiveItemSlots.Count - 1)
+        {
+            Debug.LogError("Trying to add a passive item when the Inventory slots are already full!"); // Log an error if there are no available passive item slots
+            return; // Exit the method if there are no available slots
+        }
+
+        // Spawn a passive item and add it to the list of spawned passive items
+        GameObject spawnedPassiveItem = Instantiate(passiveItem, transform.position, Quaternion.identity);
+        spawnedPassiveItem.transform.SetParent(transform); // Set the parent of the spawned passive item to the player
+        _inventoryManager.AddPassiveItem(_passiveItemIndex, spawnedPassiveItem.GetComponent<PassiveItem>()); // Add the passive item to the inventory slot
+        _passiveItemIndex++; // Increment the passive item index for the next item
     }
 }
