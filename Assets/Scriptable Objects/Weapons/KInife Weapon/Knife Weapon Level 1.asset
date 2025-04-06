@@ -19,3 +19,4 @@ MonoBehaviour:
   _pierce: 1
   _level: 1
   _nextLevelPrefab: {fileID: 3470706724400246519, guid: ed647482b42733146bae838b557045b0, type: 3}
+  _icon: {fileID: -1324318189544361227, guid: 891a693dbd378644892932a6adfabdfc, type: 3}
