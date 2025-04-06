@@ -25,6 +25,12 @@ public abstract class ProjectileWeaponBehaviour : MonoBehaviour
         _currentPierce = WeaponData.Pierce;
     }
 
+    public float GetCurrentDamage()
+    {
+        // Get the current damage and multiply it by the player's might
+        return _currentDamage *= FindAnyObjectByType<PlayerStats>().CurrentMight;
+    }
+
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     protected virtual void Start()
     {
@@ -88,14 +94,14 @@ public abstract class ProjectileWeaponBehaviour : MonoBehaviour
             if (enemy == null)
                 return; // If the enemy is null, exit the method
 
-            enemy.TakeDamage(_currentDamage); // Make suer to use _currentDamage instead of WeaponData.Damage to use the current stats in case any damage multiplier is applied
+            enemy.TakeDamage(GetCurrentDamage()); // Make suer to use GetCurrentDamage() instead of WeaponData.Damage to use the current stats in case any damage multiplier is applied
             ReducePierce(); // Reduce the pierce value after hitting an enemy
         }
         else if (collider.CompareTag("Prop"))
         {
             if (collider.gameObject.TryGetComponent(out BreakableProps breakableProp))
             {
-                breakableProp.TakeDamage(_currentDamage); // Make sure to use _currentDamage instead of WeaponData.Damage to use the current stats in case any damage multiplier is applied
+                breakableProp.TakeDamage(GetCurrentDamage()); // Make sure to use GetCurrentDamage() instead of WeaponData.Damage to use the current stats in case any damage multiplier is applied
                 ReducePierce(); // Reduce the pierce value after hitting a prop
             }
         }

@@ -19,7 +19,7 @@ public class DropRateManager : MonoBehaviour
     public void HandleDrop()
     {
         // Only run this logic if the application is not quitting
-        if (Application.isPlaying == false) return;
+        if (Application.isPlaying == false || !gameObject.scene.isLoaded) return;
 
         float randomNumber = UnityEngine.Random.Range(0f, 100f);
         List<Drops> possibleDrops = new List<Drops>();
