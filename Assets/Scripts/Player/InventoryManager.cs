@@ -23,19 +23,39 @@ public class InventoryManager : MonoBehaviour
 
     public void UpgradeWeapon(int slotIndex)
     {
-        if (WeaponLevels[slotIndex] < 3)
+        if (WeaponSlots.Count > slotIndex)
         {
-            WeaponLevels[slotIndex]++;
-            // TODO Logic to upgrade the weapon
+            WeaponController weapon = WeaponSlots[slotIndex];
+            if (weapon != null)
+            {
+                GameObject upgradedWeaponPrefab = Instantiate(weapon.WeaponData.NextLevelPrefab, transform.position, Quaternion.identity);
+                upgradedWeaponPrefab.transform.SetParent(transform); // Set the parent of the spawned weapon to the player
+                WeaponController upgradedWeapon = upgradedWeaponPrefab.GetComponent<WeaponController>();
+                
+                // Add the weapon to the inventory slot
+                AddWeapon(slotIndex, upgradedWeapon);
+                Destroy(weapon.gameObject);
+                WeaponLevels[slotIndex] = upgradedWeapon.WeaponData.Level; // Update the weapon level
+            }
         }
     }
 
     public void UpgradePassiveItem(int slotIndex)
     {
-        if (PassiveItemLevels[slotIndex] < 3)
+        if (PassiveItemSlots.Count > slotIndex)
         {
-            PassiveItemLevels[slotIndex]++;
-            // TODO Logic to upgrade the passive item
-        }
+            PassiveItem passiveItem = PassiveItemSlots[slotIndex];
+            if (passiveItem != null)
+            {
+                GameObject upgradedPassiveItemPrefab = Instantiate(passiveItem.PassiveItemData.NextLevelPrefab, transform.position, Quaternion.identity);
+                upgradedPassiveItemPrefab.transform.SetParent(transform); // Set the parent of the spawned passive item to the player
+                PassiveItem upgradedPassiveItem = upgradedPassiveItemPrefab.GetComponent<PassiveItem>();
+                 
+                // Add the passive item to the inventory slot
+                AddPassiveItem(slotIndex, upgradedPassiveItem);
+                Destroy(passiveItem.gameObject);
+                PassiveItemLevels[slotIndex] = upgradedPassiveItem.PassiveItemData.Level; // Update the passive item level
+            }
+        }        
     }
 }
