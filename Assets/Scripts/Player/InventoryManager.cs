@@ -28,6 +28,12 @@ public class InventoryManager : MonoBehaviour
             WeaponController weapon = WeaponSlots[slotIndex];
             if (weapon != null)
             {
+                if(!weapon.WeaponData.NextLevelPrefab)
+                {
+                    Debug.LogError("Next level prefab is not set for the weapon: " + weapon.name);
+                    return;
+                }
+
                 GameObject upgradedWeaponPrefab = Instantiate(weapon.WeaponData.NextLevelPrefab, transform.position, Quaternion.identity);
                 upgradedWeaponPrefab.transform.SetParent(transform); // Set the parent of the spawned weapon to the player
                 WeaponController upgradedWeapon = upgradedWeaponPrefab.GetComponent<WeaponController>();
@@ -47,6 +53,12 @@ public class InventoryManager : MonoBehaviour
             PassiveItem passiveItem = PassiveItemSlots[slotIndex];
             if (passiveItem != null)
             {
+                if(!passiveItem.PassiveItemData.NextLevelPrefab)
+                {
+                    Debug.LogError("Next level prefab is not set for the passive item: " + passiveItem.name);
+                    return;
+                }
+
                 GameObject upgradedPassiveItemPrefab = Instantiate(passiveItem.PassiveItemData.NextLevelPrefab, transform.position, Quaternion.identity);
                 upgradedPassiveItemPrefab.transform.SetParent(transform); // Set the parent of the spawned passive item to the player
                 PassiveItem upgradedPassiveItem = upgradedPassiveItemPrefab.GetComponent<PassiveItem>();
