@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class GarlicBehaviour : MeleeWeaponBehaviour
+public class GarlicBehaviour : WeaponBehavior
 {
     private List<GameObject> _markedEnemies = new List<GameObject>(); // List to keep track of marked enemies
 
