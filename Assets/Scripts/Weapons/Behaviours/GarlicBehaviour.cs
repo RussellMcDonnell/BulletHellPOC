@@ -21,7 +21,7 @@ public class GarlicBehaviour : MeleeWeaponBehaviour
                 return; // If the enemy component is not found, exit the method
 
             // Call the TakeDamage method on the enemy with the current damage
-            enemy.TakeDamage(_currentDamage);
+            enemy.TakeDamage(GetCurrentDamage());
 
             _markedEnemies.Add(collider.gameObject); // Add the enemy to the list of marked enemies so it doesn't take another instance of damage from this Garlic
         }
@@ -29,7 +29,7 @@ public class GarlicBehaviour : MeleeWeaponBehaviour
         {
             if (collider.gameObject.TryGetComponent(out BreakableProps breakableProp))
             {
-                breakableProp.TakeDamage(_currentDamage); // Make sure to use _currentDamage instead of WeaponData.Damage to use the current stats in case any damage multiplier is applied
+                breakableProp.TakeDamage(GetCurrentDamage()); // Make sure to use GetCurrentDamage() instead of WeaponData.Damage to use the current stats in case any damage multiplier is applied
                 
                 _markedEnemies.Add(collider.gameObject); // Add the enemy to the list of marked enemies so it doesn't take another instance of damage from this Garlic
             }
