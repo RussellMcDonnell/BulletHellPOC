@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 631703076833387690}
   - component: {fileID: 950438064953373089}
   m_Layer: 0
-  m_Name: Knife Weapon
+  m_Name: Knife Weapon Level 2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -80,7 +80,7 @@ SpriteRenderer:
   m_SortingLayer: 3
   m_SortingOrder: 0
   m_Sprite: {fileID: -1324318189544361227, guid: 891a693dbd378644892932a6adfabdfc, type: 3}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 0.7924528, g: 0.6167675, b: 0.6167675, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -102,7 +102,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a2d1edc89850b904c98eec65f2cb54f5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  WeaponData: {fileID: 11400000, guid: 8dd723e0cf0809942922aa1e139be20f, type: 2}
+  WeaponData: {fileID: 11400000, guid: 08d9e55115fda1e479dca208d5a7ac7e, type: 2}
   DestroyAfterSeconds: 3
 --- !u!60 &631703076833387690
 PolygonCollider2D:
