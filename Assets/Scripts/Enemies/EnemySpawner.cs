@@ -88,7 +88,7 @@ public class EnemySpawner : MonoBehaviour
             currentTotalWaveQuota += enemyGroup.EnemyCount;
         }
 
-        Debug.LogWarning("Current Wave Quota: " + currentTotalWaveQuota);
+        Debug.Log("Current Wave Quota: " + currentTotalWaveQuota);
         Waves[CurrentWaveIndex].WaveQuota = currentTotalWaveQuota;
     }
 
