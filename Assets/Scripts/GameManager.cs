@@ -1,4 +1,6 @@
+using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class GameManager : MonoBehaviour
 {
@@ -17,9 +19,18 @@ public class GameManager : MonoBehaviour
     [Header("UI")]
     public GameObject PauseScreen;
 
+    //Current stats display text
+    public TextMeshProUGUI CurrentHealthDisplay;
+    public TextMeshProUGUI CurrentRecoveryDisplay;
+    public TextMeshProUGUI CurrentMovementSpeedDisplay;
+    public TextMeshProUGUI CurrentMightDisplay;
+    public TextMeshProUGUI CurrentProjectileSpeedDisplay;
+    public TextMeshProUGUI CurrentMagnetDisplay;
 
 
-    private void Awake() {
+
+    private void Awake()
+    {
         DisableScreens();
     }
 
@@ -43,7 +54,7 @@ public class GameManager : MonoBehaviour
             default:
                 Debug.LogError("Unknown game state: " + CurrentState);
                 break;
-        }        
+        }
     }
 
     public void ChangeState(GameState newState)
@@ -53,8 +64,9 @@ public class GameManager : MonoBehaviour
 
     public void PauseGame()
     {
-        if(CurrentState != GameState.Paused)
+        if (CurrentState != GameState.Paused)
         {
+            UpdatePauseScreenCurrentStats();
             PauseScreen.SetActive(true); // Show the pause screen
             PreviousState = CurrentState;
             ChangeState(GameState.Paused);
@@ -65,7 +77,7 @@ public class GameManager : MonoBehaviour
 
     public void ResumeGame()
     {
-        if(CurrentState == GameState.Paused)
+        if (CurrentState == GameState.Paused)
         {
             PauseScreen.SetActive(false); // hide the pause screen
             ChangeState(PreviousState);
@@ -87,6 +99,25 @@ public class GameManager : MonoBehaviour
                 PauseGame();
             }
         }
+    }
+
+    /// <summary>
+    /// Updates the current stats displayed on the pause screen.
+    /// </summary>
+    private void UpdatePauseScreenCurrentStats()
+    {
+        // Get the Player component by tag
+        GameObject player = GameObject.FindGameObjectWithTag("Player");
+        // Get the player stats from the player component
+        PlayerStats playerStats = player.GetComponent<PlayerStats>();
+
+        // Update the UI text elements with the player's current stats
+        CurrentHealthDisplay.text = "Health: " + playerStats.CurrentHealth.ToString("F0") + "/" + playerStats.CurrentMaxHealth.ToString("F0");
+        CurrentRecoveryDisplay.text = "Recovery: " + playerStats.CurrentRecovery.ToString("F1") + "/s";
+        CurrentMovementSpeedDisplay.text = "Movement Speed: " + playerStats.CurrentMovementSpeed.ToString("F0");
+        CurrentMightDisplay.text = "Might: " + playerStats.CurrentMight.ToString("F0");
+        CurrentProjectileSpeedDisplay.text = "Projectile Speed: " + playerStats.CurrentProjectileSpeed.ToString("F0");
+        CurrentMagnetDisplay.text = "Magnet: " + playerStats.CurrentMagnet.ToString("F0");
     }
 
     private void DisableScreens()

@@ -7,6 +7,8 @@ public class PlayerStats : MonoBehaviour
     [HideInInspector]
     public float CurrentHealth;
     [HideInInspector]
+    public float CurrentMaxHealth;
+    [HideInInspector]
     public float CurrentRecovery;
     [HideInInspector]
     public float CurrentMovementSpeed;
@@ -58,7 +60,7 @@ public class PlayerStats : MonoBehaviour
         _inventoryManager = GetComponent<InventoryManager>(); // Get the InventoryManager component from the player
 
         // Initialize the current stats to the values from the CharacterData scriptable object
-        CurrentHealth = _characterData.MaxHealth;
+        CurrentHealth = CurrentMaxHealth = _characterData.MaxHealth; // Set current health and max health
         CurrentRecovery = _characterData.Recovery;
         CurrentMovementSpeed = _characterData.MovementSpeed;
         CurrentMight = _characterData.Might;
@@ -161,25 +163,25 @@ public class PlayerStats : MonoBehaviour
 
     public void RestoreHealth(float healAmount)
     {
-        if (CurrentHealth == _characterData.MaxHealth) return; // If health is already at max, do nothing
+        if (CurrentHealth == CurrentMaxHealth) return; // If health is already at max, do nothing
 
         // Restore health to the player
         CurrentHealth += healAmount;
-        if (CurrentHealth > _characterData.MaxHealth)
+        if (CurrentHealth > CurrentMaxHealth)
         {
-            CurrentHealth = _characterData.MaxHealth; // Ensure health does not exceed max health
+            CurrentHealth = CurrentMaxHealth; // Ensure health does not exceed max health
         }
     }
 
     private void Recover()
     {
-        if (CurrentHealth > _characterData.MaxHealth) return; // If health is already at max, do nothing
+        if (CurrentHealth > CurrentMaxHealth) return; // If health is already at max, do nothing
 
         // Restore health over time based on the recovery rate
         CurrentHealth += CurrentRecovery * Time.deltaTime;
-        if (CurrentHealth > _characterData.MaxHealth)
+        if (CurrentHealth > CurrentMaxHealth)
         {
-            CurrentHealth = _characterData.MaxHealth; // Ensure health does not exceed max health
+            CurrentHealth = CurrentMaxHealth; // Ensure health does not exceed max health
         }
     }
 
