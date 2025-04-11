@@ -14,11 +14,13 @@ public class GameManager : MonoBehaviour
 
     public GameState PreviousState;
 
+    [Header("UI")]
+    public GameObject PauseScreen;
 
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
-    {
-        
+
+
+    private void Awake() {
+        DisableScreens();
     }
 
     // Update is called once per frame
@@ -53,6 +55,7 @@ public class GameManager : MonoBehaviour
     {
         if(CurrentState != GameState.Paused)
         {
+            PauseScreen.SetActive(true); // Show the pause screen
             PreviousState = CurrentState;
             ChangeState(GameState.Paused);
             Time.timeScale = 0f; // Pause the game
@@ -64,6 +67,7 @@ public class GameManager : MonoBehaviour
     {
         if(CurrentState == GameState.Paused)
         {
+            PauseScreen.SetActive(false); // hide the pause screen
             ChangeState(PreviousState);
             Time.timeScale = 1f; // Resume the game
             Debug.Log("Game Resumed");
@@ -83,5 +87,10 @@ public class GameManager : MonoBehaviour
                 PauseGame();
             }
         }
+    }
+
+    private void DisableScreens()
+    {
+        PauseScreen.SetActive(false);
     }
 }
