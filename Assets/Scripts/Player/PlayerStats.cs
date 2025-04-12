@@ -91,6 +91,8 @@ public class PlayerStats : MonoBehaviour
                 ExperienceCap += LevelRanges[i].ExperienceCapIncrease;
             }
         }
+        
+        GameManager.Instance.AssignChosenCharacterUI(_characterData); // Assign the character UI in the GameManager
     }
 
     private void Update()
@@ -156,9 +158,10 @@ public class PlayerStats : MonoBehaviour
 
     public void Die()
     {
-        // Handle player death (e.g., play animation, destroy object, etc.)
-        Debug.Log("Player has died!"); // Placeholder for player death handling
-        Destroy(gameObject); // Destroy the player game object
+        if(!GameManager.Instance.CurrentState.Equals(GameManager.GameState.GameOver))
+        {
+            GameManager.Instance.GameOver();
+        }
     }
 
     public void RestoreHealth(float healAmount)

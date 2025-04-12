@@ -30,6 +30,11 @@ public class PlayerMovement : MonoBehaviour
 
     void InputManagment()
     {
+        // Check if the game is over or paused
+        if (GameManager.Instance.CurrentState == GameManager.GameState.GameOver ||
+            GameManager.Instance.CurrentState == GameManager.GameState.Paused)
+            return;
+
         float horizontalInput = Input.GetAxis("Horizontal");
         float verticalInput = Input.GetAxis("Vertical");
 
@@ -53,8 +58,12 @@ public class PlayerMovement : MonoBehaviour
 
     void Move()
     {
+        // Check if the game is over or paused
+        if (GameManager.Instance.CurrentState == GameManager.GameState.GameOver ||
+            GameManager.Instance.CurrentState == GameManager.GameState.Paused)
+            return;
+
         // Move the player character
-        //_rigidBody.MovePosition(_rigidBody.position + MoveDirection * CharacterData.MovementSpeed * Time.fixedDeltaTime);
         _rigidBody.linearVelocity = new Vector2(MoveDirection.x * _playerStats.CurrentMovementSpeed, MoveDirection.y * _playerStats.CurrentMovementSpeed);
     }
 }

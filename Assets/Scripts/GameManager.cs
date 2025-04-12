@@ -4,6 +4,8 @@ using UnityEngine.UI;
 
 public class GameManager : MonoBehaviour
 {
+    // Singleton instance
+    public static GameManager Instance { get; private set; }
     public enum GameState
     {
         MainMenu,
@@ -16,10 +18,13 @@ public class GameManager : MonoBehaviour
 
     public GameState PreviousState;
 
-    [Header("UI")]
+    [Header("Screens")]
     public GameObject PauseScreen;
+    public GameObject ResultsScreen;
+
 
     //Current stats display text
+    [Header("Current Stats Display")]
     public TextMeshProUGUI CurrentHealthDisplay;
     public TextMeshProUGUI CurrentRecoveryDisplay;
     public TextMeshProUGUI CurrentMovementSpeedDisplay;
@@ -27,10 +32,24 @@ public class GameManager : MonoBehaviour
     public TextMeshProUGUI CurrentProjectileSpeedDisplay;
     public TextMeshProUGUI CurrentMagnetDisplay;
 
+    [Header("Results Screen Display")]
+    public Image ChosenCharacterImage;
+    public TextMeshProUGUI ChosenCharacterName;
 
 
     private void Awake()
     {
+        // Check if an instance of GameManager already exists
+        if (Instance == null)
+        {
+            Instance = this; // Set the instance to this GameManager
+            DontDestroyOnLoad(gameObject); // Don't destroy this object when loading a new scene
+        }
+        else
+        {
+            Destroy(gameObject); // Destroy this object if an instance already exists
+        }
+
         DisableScreens();
     }
 
@@ -49,7 +68,7 @@ public class GameManager : MonoBehaviour
                 CheckForPauseAndResume();
                 break;
             case GameState.GameOver:
-                // Handle game over logic
+                DisplayResults();
                 break;
             default:
                 Debug.LogError("Unknown game state: " + CurrentState);
@@ -123,5 +142,25 @@ public class GameManager : MonoBehaviour
     private void DisableScreens()
     {
         PauseScreen.SetActive(false);
+        ResultsScreen.SetActive(false);
+    }
+
+    public void GameOver()
+    {
+        // Handle game over logic here (e.g., show game over screen, reset game, etc.)
+        Debug.Log("Game Over");
+        Time.timeScale = 0f; // Pause the game
+        ChangeState(GameState.GameOver);
+    }
+
+    private void DisplayResults()
+    {
+        ResultsScreen.SetActive(true); // Show the results screen
+    }
+
+    public void AssignChosenCharacterUI(CharacterScriptableObject characterData)
+    {
+        ChosenCharacterImage.sprite = characterData.CharacterSprite; // Assign the character image to the UI
+        ChosenCharacterName.text = characterData.CharacterName; // Assign the character name to the UI
     }
 }

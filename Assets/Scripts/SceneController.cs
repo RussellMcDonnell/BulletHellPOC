@@ -7,5 +7,6 @@ public class SceneController : MonoBehaviour
     {
         // Load the specified scene
         SceneManager.LoadScene(sceneName);
+        Time.timeScale = 1f; // Ensure the game is unpaused when changing scenes
     }
 }
