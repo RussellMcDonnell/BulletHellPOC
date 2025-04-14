@@ -1,4 +1,3 @@
-using System;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -6,37 +5,7 @@ using UnityEngine.UI;
 public class GameManager : MonoBehaviour
 {
     // Singleton instance
-
-    public static GameManager Instance
-    {
-        get
-        {
-            if (_instance == null)
-            {
-                _instance = FindAnyObjectByType<GameManager>();
-
-                if (_instance == null)
-                {
-                    GameObject prefab = Resources.Load<GameObject>("GameManager");
-                    if (prefab != null)
-                    {
-                        GameObject managerObject = Instantiate(prefab);
-                        _instance = managerObject.GetComponent<GameManager>();
-                        managerObject.name = "GameManager (AutoInstantiated)";
-                        DontDestroyOnLoad(managerObject);
-                    }
-                    else
-                    {
-                        Debug.LogError("GameManager prefab not found in Resources!");
-                    }
-                }
-            }
-            return _instance;
-        }
-        private set => _instance = value;
-    }
-
-    private static GameManager _instance;
+    public static GameManager Instance { get; private set; }
 
     public enum GameState
     {
@@ -73,17 +42,17 @@ public class GameManager : MonoBehaviour
 
     private void Awake()
     {
-        // // Check if an instance of GameManager already exists
-        // if (Instance == null)
-        // {
-        //     Instance = this; // Set the instance to this GameManager
-        //     DontDestroyOnLoad(gameObject); // Don't destroy this object when loading a new scene
-        // }
-        // else if (Instance != this)
-        // {
-        //     Instance = this; // Set the instance to this GameManager
-        //     // Destroy(gameObject); // Destroy any duplicate in new scenes
-        // }
+        // Check if an instance of GameManager already exists
+        if (Instance == null)
+        {
+            Instance = this; // Set the instance to this GameManager
+            DontDestroyOnLoad(gameObject); // Don't destroy this object when loading a new scene
+        }
+        else if (this != null && Instance != this)
+        {
+            Instance = this; // Set the instance to this GameManager
+            // Destroy(gameObject); // Destroy any duplicate in new scenes
+        }
 
         DisableScreens();
     }
@@ -200,7 +169,24 @@ public class GameManager : MonoBehaviour
 
     public void AssignChosenCharacterUI(CharacterScriptableObject characterData)
     {
-        // ChosenCharacterImage.sprite = characterData.CharacterSprite; // Assign the character image to the UI
-        // ChosenCharacterName.text = characterData.CharacterName; // Assign the character name to the UI
+        ChosenCharacterImage.sprite = characterData.CharacterSprite; // Assign the character image to the UI
+        ChosenCharacterName.text = characterData.CharacterName; // Assign the character name to the UI
+    }
+
+    private void AssignRuntimeReferences()
+    {
+        PauseScreen = GameObject.Find("Pause Screen");
+        ResultsScreen = GameObject.Find("Results Screen");
+
+        // Example of finding TextMeshProUGUI by name
+        CurrentHealthDisplay = GameObject.Find("Current Health Display")?.GetComponent<TextMeshProUGUI>();
+        CurrentRecoveryDisplay = GameObject.Find("Current Recovery Display")?.GetComponent<TextMeshProUGUI>();
+        CurrentMovementSpeedDisplay = GameObject.Find("Current Move Speed Display")?.GetComponent<TextMeshProUGUI>();
+        CurrentMightDisplay = GameObject.Find("Current Might Display")?.GetComponent<TextMeshProUGUI>();
+        CurrentProjectileSpeedDisplay = GameObject.Find("Current Projectile Speed Display")?.GetComponent<TextMeshProUGUI>();
+        CurrentMagnetDisplay = GameObject.Find("Current Magnet Display")?.GetComponent<TextMeshProUGUI>();
+
+        ChosenCharacterImage = GameObject.Find("Chosen Character Image")?.GetComponent<Image>();
+        ChosenCharacterName = GameObject.Find("Chosen Character Name")?.GetComponent<TextMeshProUGUI>();
     }
 }

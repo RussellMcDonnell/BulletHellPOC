@@ -11,7 +11,7 @@ public class SceneController : MonoBehaviour
 
         switch (sceneName)
         {
-            case "MainMenu":
+            case "Menu":
                 GameManager.Instance.ChangeState(GameManager.GameState.MainMenu); // Set the game state to MainMenu
                 break;
             case "Game":
