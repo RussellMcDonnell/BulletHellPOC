@@ -1,3 +1,4 @@
+using System;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -5,7 +6,38 @@ using UnityEngine.UI;
 public class GameManager : MonoBehaviour
 {
     // Singleton instance
-    public static GameManager Instance { get; private set; }
+
+    public static GameManager Instance
+    {
+        get
+        {
+            if (_instance == null)
+            {
+                _instance = FindAnyObjectByType<GameManager>();
+
+                if (_instance == null)
+                {
+                    GameObject prefab = Resources.Load<GameObject>("GameManager");
+                    if (prefab != null)
+                    {
+                        GameObject managerObject = Instantiate(prefab);
+                        _instance = managerObject.GetComponent<GameManager>();
+                        managerObject.name = "GameManager (AutoInstantiated)";
+                        DontDestroyOnLoad(managerObject);
+                    }
+                    else
+                    {
+                        Debug.LogError("GameManager prefab not found in Resources!");
+                    }
+                }
+            }
+            return _instance;
+        }
+        private set => _instance = value;
+    }
+
+    private static GameManager _instance;
+
     public enum GameState
     {
         MainMenu,
@@ -13,6 +45,8 @@ public class GameManager : MonoBehaviour
         Paused,
         GameOver
     }
+
+    private bool _isGameOver = false; // Flag to check if the game is over
 
     public GameState CurrentState;
 
@@ -39,16 +73,17 @@ public class GameManager : MonoBehaviour
 
     private void Awake()
     {
-        // Check if an instance of GameManager already exists
-        if (Instance == null)
-        {
-            Instance = this; // Set the instance to this GameManager
-            DontDestroyOnLoad(gameObject); // Don't destroy this object when loading a new scene
-        }
-        else
-        {
-            Destroy(gameObject); // Destroy this object if an instance already exists
-        }
+        // // Check if an instance of GameManager already exists
+        // if (Instance == null)
+        // {
+        //     Instance = this; // Set the instance to this GameManager
+        //     DontDestroyOnLoad(gameObject); // Don't destroy this object when loading a new scene
+        // }
+        // else if (Instance != this)
+        // {
+        //     Instance = this; // Set the instance to this GameManager
+        //     // Destroy(gameObject); // Destroy any duplicate in new scenes
+        // }
 
         DisableScreens();
     }
@@ -68,7 +103,12 @@ public class GameManager : MonoBehaviour
                 CheckForPauseAndResume();
                 break;
             case GameState.GameOver:
-                DisplayResults();
+                // Check if the game is over and display the results screen
+                if (!_isGameOver)
+                {
+                    _isGameOver = true; // Set the game over flag to true
+                    DisplayResults(); // Display the results screen
+                }
                 break;
             default:
                 Debug.LogError("Unknown game state: " + CurrentState);
@@ -78,6 +118,7 @@ public class GameManager : MonoBehaviour
 
     public void ChangeState(GameState newState)
     {
+        PreviousState = CurrentState; // Store the previous state
         CurrentState = newState;
     }
 
@@ -87,7 +128,6 @@ public class GameManager : MonoBehaviour
         {
             UpdatePauseScreenCurrentStats();
             PauseScreen.SetActive(true); // Show the pause screen
-            PreviousState = CurrentState;
             ChangeState(GameState.Paused);
             Time.timeScale = 0f; // Pause the game
             Debug.Log("Game Paused");
@@ -160,7 +200,7 @@ public class GameManager : MonoBehaviour
 
     public void AssignChosenCharacterUI(CharacterScriptableObject characterData)
     {
-        ChosenCharacterImage.sprite = characterData.CharacterSprite; // Assign the character image to the UI
-        ChosenCharacterName.text = characterData.CharacterName; // Assign the character name to the UI
+        // ChosenCharacterImage.sprite = characterData.CharacterSprite; // Assign the character image to the UI
+        // ChosenCharacterName.text = characterData.CharacterName; // Assign the character name to the UI
     }
 }
