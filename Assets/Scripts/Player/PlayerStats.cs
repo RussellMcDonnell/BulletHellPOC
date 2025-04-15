@@ -137,6 +137,8 @@ public class PlayerStats : MonoBehaviour
                 }
             }
             ExperienceCap += experienceCapIncrease; // Increase the experience cap for the next level
+
+            GameManager.Instance.StartLevelingUp(); // Notify the GameManager to start the leveling up process
         }
     }
     

@@ -12,11 +12,13 @@ public class GameManager : MonoBehaviour
     {
         MainMenu,
         Playing,
+        LevelingUp,
         Paused,
         GameOver
     }
 
     private bool _isGameOver = false; // Flag to check if the game is over
+    public bool ChoosingUpgrade = false; // Flag to check if the player is choosing an upgrade
 
     public GameState CurrentState;
 
@@ -25,6 +27,7 @@ public class GameManager : MonoBehaviour
     [Header("Screens")]
     public GameObject PauseScreen;
     public GameObject ResultsScreen;
+    public GameObject LevelUpScreen;
 
 
     //Current stats display text
@@ -79,6 +82,15 @@ public class GameManager : MonoBehaviour
                 // Update the time survived
                 UpdateStopwatch();
                 CheckForPauseAndResume();
+                break;
+            case GameState.LevelingUp:
+                // Handle leveling up logic
+                if (!ChoosingUpgrade)
+                {
+                    ChoosingUpgrade = true;
+                    Time.timeScale = 0f; // Pause the game
+                    LevelUpScreen.SetActive(true); // Show the level up screen
+                }
                 break;
             case GameState.Paused:
                 CheckForPauseAndResume();
@@ -175,6 +187,7 @@ public class GameManager : MonoBehaviour
     {
         PauseScreen.SetActive(false);
         ResultsScreen.SetActive(false);
+        LevelUpScreen.SetActive(false);
     }
 
     public void GameOver()
@@ -249,6 +262,27 @@ public class GameManager : MonoBehaviour
             int minutes = Mathf.FloorToInt(StopwatchTime / 60f);
             int seconds = Mathf.FloorToInt(StopwatchTime % 60f);
             StopwatchDisplay.text = string.Format("{0:00}:{1:00}", minutes, seconds);
+        }
+    }
+
+    public void StartLevelingUp()
+    {
+        if (CurrentState == GameState.Playing)
+        {
+            ChangeState(GameState.LevelingUp); // Change the game state to leveling up
+            Time.timeScale = 0f; // Pause the game
+            LevelUpScreen.SetActive(true); // Show the level up screen
+        }
+    }
+
+    public void EndLevelingUp()
+    {
+        if (CurrentState == GameState.LevelingUp)
+        {
+            LevelUpScreen.SetActive(false); // Hide the level up screen
+            ChangeState(GameState.Playing); // Change the game state back to playing
+            Time.timeScale = 1f; // Resume the game
+            ChoosingUpgrade = false; // Reset the choosing upgrade flag
         }
     }
 
