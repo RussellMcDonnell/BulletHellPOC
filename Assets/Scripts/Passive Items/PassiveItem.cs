@@ -3,7 +3,7 @@ using UnityEngine;
 public class PassiveItem : MonoBehaviour
 {
     protected PlayerStats PlayerStats;
-    public PassiveItemScriptableObjectScript PassiveItemData;
+    public PassiveItemScriptableObject PassiveItemData;
 
     protected virtual void ApplyModifier()
     {

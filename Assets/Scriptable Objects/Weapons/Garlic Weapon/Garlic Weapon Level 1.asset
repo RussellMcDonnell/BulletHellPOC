@@ -20,3 +20,5 @@ MonoBehaviour:
   _level: 1
   _nextLevelPrefab: {fileID: 8729800897727519446, guid: a015a61be081c4242924d463e1f48ad3, type: 3}
   _icon: {fileID: 4641043289130053377, guid: 891a693dbd378644892932a6adfabdfc, type: 3}
+  _weaponName: Garlic
+  _description: Deals damage to every enemy inside radius

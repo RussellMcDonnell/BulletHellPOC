@@ -16,3 +16,5 @@ MonoBehaviour:
   _level: 1
   _nextLevelPrefab: {fileID: 970919164149107445, guid: bfc638d55a8cc014c94eaa2d85901f82, type: 3}
   _icon: {fileID: 7607382544091891577, guid: 891a693dbd378644892932a6adfabdfc, type: 3}
+  _passiveName: Wings
+  _description: Increase move speed by 50%

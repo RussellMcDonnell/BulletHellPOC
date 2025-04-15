@@ -72,11 +72,11 @@ public class PlayerStats : MonoBehaviour
         PlayerCollector.SetDetectorRadius(CurrentMagnet); // Set the detector radius based on the character data
 
         //Spawn the staring weapon
-        SpwanWeapon(_characterData.StartingWeapon); // Spawn the starting weapon for the player        
+        SpawnWeapon(_characterData.StartingWeapon); // Spawn the starting weapon for the player        
 
         // TODO remove after testing
-        SpwanWeapon(SecondWeaponTest); // Spawn the second weapon for testing
-        SpawnPassiveItem(FirstPassiveItemTest); // Spawn the first passive item for testing
+        //SpawnWeapon(SecondWeaponTest); // Spawn the second weapon for testing
+        //SpawnPassiveItem(FirstPassiveItemTest); // Spawn the first passive item for testing
         SpawnPassiveItem(SecondPassiveItemTest); // Spawn the second passive item for testing
     }
 
@@ -192,7 +192,7 @@ public class PlayerStats : MonoBehaviour
         }
     }
 
-    public void SpwanWeapon(GameObject weapon)
+    public void SpawnWeapon(GameObject weapon)
     {
         if (_weaponIndex >= _inventoryManager.WeaponSlots.Count -1)
         {

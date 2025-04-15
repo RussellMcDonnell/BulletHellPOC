@@ -19,6 +19,10 @@ public class WeaponScriptableObject : ScriptableObject
     private GameObject _nextLevelPrefab; // Prefab for the next level of the weapon e.g. what the weapon will become when it levels up
     [SerializeField] // Not ment to be modified in the game, only in the editor
     private Sprite _icon; // Icon for the weapon, used in the inventory UI
+    [SerializeField]
+    private string _weaponName;
+    [SerializeField]
+    private string _description;
 
     public GameObject WeaponPrefab { get => _weaponPrefab; private set => _weaponPrefab = value; }
     public float Damage { get => _damage; private set => _damage = value; }
@@ -28,4 +32,6 @@ public class WeaponScriptableObject : ScriptableObject
     public int Level { get => _level; private set => _level = value; }
     public GameObject NextLevelPrefab { get => _nextLevelPrefab; private set => _nextLevelPrefab = value; }
     public Sprite Icon { get => _icon; private set => _icon = value; }
+    public string WeaponName { get => _weaponName; private set => _weaponName = value; }
+    public string Description { get => _description; private set => _description = value; }
 }

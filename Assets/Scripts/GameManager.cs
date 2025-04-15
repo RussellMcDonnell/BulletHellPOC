@@ -52,6 +52,8 @@ public class GameManager : MonoBehaviour
     public float TimeLimit = 0f;
     public TextMeshProUGUI StopwatchDisplay;
 
+    public GameObject PlayerObject;
+
 
     private void Awake()
     {
@@ -272,6 +274,7 @@ public class GameManager : MonoBehaviour
             ChangeState(GameState.LevelingUp); // Change the game state to leveling up
             Time.timeScale = 0f; // Pause the game
             LevelUpScreen.SetActive(true); // Show the level up screen
+            PlayerObject.SendMessage("RemoveAndApplyUpgrades");
         }
     }
 
