@@ -160,6 +160,8 @@ public class PlayerStats : MonoBehaviour
     {
         if(!GameManager.Instance.CurrentState.Equals(GameManager.GameState.GameOver))
         {
+            GameManager.Instance.AssignChosenWeaponsAndPassivesItemsUI(_inventoryManager.WeaponIcons, _inventoryManager.PassiveItemIcons); // Assign the UI for the chosen weapons and passive items
+            GameManager.Instance.AssignLevelReachedUI(Level);
             GameManager.Instance.GameOver();
         }
     }

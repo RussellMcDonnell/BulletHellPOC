@@ -12,10 +12,14 @@ public class SceneController : MonoBehaviour
         switch (sceneName)
         {
             case "Menu":
-                GameManager.Instance.ChangeState(GameManager.GameState.MainMenu); // Set the game state to MainMenu
+                GameManager.Instance?.ChangeState(GameManager.GameState.MainMenu);
                 break;
             case "Game":
-                // GameManager.Instance.ChangeState(GameManager.GameState.Playing); // Set the game state to Game
+                if (GameManager.Instance != null)
+                {
+                    GameManager.Instance?.ChangeState(GameManager.GameState.Playing);
+                    GameManager.Instance.TimeSurvived = 0; // Reset the time survived
+                }
                 break;
         }
     }

@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -38,6 +39,11 @@ public class GameManager : MonoBehaviour
     [Header("Results Screen Display")]
     public Image ChosenCharacterImage;
     public TextMeshProUGUI ChosenCharacterName;
+    public TextMeshProUGUI LevelReachedDisplay;
+    public TextMeshProUGUI TimeSurvivedDisplay;
+    public List<Image> ChosenPassiveItemsImages = new List<Image>(6);
+    public List<Image> ChosenWeaponsImages = new List<Image>(6);
+    public float TimeSurvived = 0f; // Time survived in the game
 
 
     private void Awake()
@@ -66,6 +72,8 @@ public class GameManager : MonoBehaviour
                 // Handle main menu logic
                 break;
             case GameState.Playing:
+                // Update the time survived
+                TimeSurvived += Time.deltaTime; // Increment the time survived by the time since the last frame
                 CheckForPauseAndResume();
                 break;
             case GameState.Paused:
@@ -164,6 +172,7 @@ public class GameManager : MonoBehaviour
 
     private void DisplayResults()
     {
+        AssignTimeSurvivedUI();
         ResultsScreen.SetActive(true); // Show the results screen
     }
 
@@ -171,6 +180,60 @@ public class GameManager : MonoBehaviour
     {
         ChosenCharacterImage.sprite = characterData.CharacterSprite; // Assign the character image to the UI
         ChosenCharacterName.text = characterData.CharacterName; // Assign the character name to the UI
+    }
+
+    public void AssignLevelReachedUI(int levelReached)
+    {
+        if (LevelReachedDisplay != null)
+        {
+            LevelReachedDisplay.text = levelReached.ToString();
+        }
+    }
+
+    public void AssignChosenWeaponsAndPassivesItemsUI(List<Image> chosenWeaponsData, List<Image> chosenPassiveItemsData)
+    {
+        // check if lists are the same size
+        if (chosenWeaponsData.Count != ChosenWeaponsImages.Count || chosenPassiveItemsData.Count != ChosenPassiveItemsImages.Count)
+        {
+            Debug.LogError("The number of weapons and passive items does not match the UI slots.");
+        }
+
+        for (int i = 0; i < chosenWeaponsData.Count; i++)
+        {
+            if (chosenWeaponsData[i]?.sprite != null)
+            {
+                ChosenWeaponsImages[i].enabled = true; // Enable the image slot for the weapon
+                ChosenWeaponsImages[i].sprite = chosenWeaponsData[i].sprite; // Assign the weapon images to the UI
+            }
+            else
+            {
+                ChosenWeaponsImages[i].enabled = false; // Disable the image slot for the weapon if no sprite is assigned
+            }
+        }
+
+        for (int i = 0; i < chosenPassiveItemsData.Count; i++)
+        {
+            if (chosenPassiveItemsData[i]?.sprite != null)
+            {
+                ChosenPassiveItemsImages[i].enabled = true; // Enable the image slot for the passive item
+                ChosenPassiveItemsImages[i].sprite = chosenPassiveItemsData[i].sprite; // Assign the passive item images to the UI
+            }
+            else
+            {
+                ChosenPassiveItemsImages[i].enabled = false; // Disable the image slot for the passive item if no sprite is assigned
+            }
+        }
+    }
+
+    public void AssignTimeSurvivedUI()
+    {
+        if (TimeSurvivedDisplay != null)
+        {
+            // Format the time
+            int minutes = Mathf.FloorToInt(TimeSurvived / 60f);
+            int seconds = Mathf.FloorToInt(TimeSurvived % 60f);
+            TimeSurvivedDisplay.text = string.Format("{0:00}:{1:00}", minutes, seconds);
+        }
     }
 
     private void AssignRuntimeReferences()
