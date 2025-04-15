@@ -43,7 +43,11 @@ public class GameManager : MonoBehaviour
     public TextMeshProUGUI TimeSurvivedDisplay;
     public List<Image> ChosenPassiveItemsImages = new List<Image>(6);
     public List<Image> ChosenWeaponsImages = new List<Image>(6);
-    public float TimeSurvived = 0f; // Time survived in the game
+
+    [Header("Stopwatch")]
+    public float StopwatchTime = 0f; // Time survived in the game
+    public float TimeLimit = 0f;
+    public TextMeshProUGUI StopwatchDisplay;
 
 
     private void Awake()
@@ -73,7 +77,7 @@ public class GameManager : MonoBehaviour
                 break;
             case GameState.Playing:
                 // Update the time survived
-                TimeSurvived += Time.deltaTime; // Increment the time survived by the time since the last frame
+                UpdateStopwatch();
                 CheckForPauseAndResume();
                 break;
             case GameState.Paused:
@@ -90,6 +94,17 @@ public class GameManager : MonoBehaviour
             default:
                 Debug.LogError("Unknown game state: " + CurrentState);
                 break;
+        }
+    }
+
+    private void UpdateStopwatch()
+    {
+        StopwatchTime += Time.deltaTime; // Increment the time survived by the time since the last frame
+        UpdateStopwatchDisplay();
+
+        if(StopwatchTime >= TimeLimit) // Check if the time limit is reached
+        {
+            GameOver(); // Call the game over method
         }
     }
 
@@ -167,12 +182,13 @@ public class GameManager : MonoBehaviour
         // Handle game over logic here (e.g., show game over screen, reset game, etc.)
         Debug.Log("Game Over");
         Time.timeScale = 0f; // Pause the game
+        TimeSurvivedDisplay.text = StopwatchDisplay.text; // Assign the time survived to the display text
         ChangeState(GameState.GameOver);
     }
 
     private void DisplayResults()
     {
-        AssignTimeSurvivedUI();
+        UpdateStopwatchDisplay();
         ResultsScreen.SetActive(true); // Show the results screen
     }
 
@@ -225,14 +241,14 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    public void AssignTimeSurvivedUI()
+    public void UpdateStopwatchDisplay()
     {
         if (TimeSurvivedDisplay != null)
         {
             // Format the time
-            int minutes = Mathf.FloorToInt(TimeSurvived / 60f);
-            int seconds = Mathf.FloorToInt(TimeSurvived % 60f);
-            TimeSurvivedDisplay.text = string.Format("{0:00}:{1:00}", minutes, seconds);
+            int minutes = Mathf.FloorToInt(StopwatchTime / 60f);
+            int seconds = Mathf.FloorToInt(StopwatchTime % 60f);
+            StopwatchDisplay.text = string.Format("{0:00}:{1:00}", minutes, seconds);
         }
     }
 

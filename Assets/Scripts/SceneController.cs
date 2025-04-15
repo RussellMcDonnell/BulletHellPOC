@@ -18,7 +18,7 @@ public class SceneController : MonoBehaviour
                 if (GameManager.Instance != null)
                 {
                     GameManager.Instance?.ChangeState(GameManager.GameState.Playing);
-                    GameManager.Instance.TimeSurvived = 0; // Reset the time survived
+                    GameManager.Instance.StopwatchTime = 0; // Reset the time survived
                 }
                 break;
         }
