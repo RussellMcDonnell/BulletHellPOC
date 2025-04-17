@@ -166,5 +166,5 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   LifeSpan: 5
-  ExperienceGranted: 100
+  ExperienceGranted: 30
   HealthToRestore: 0

@@ -1,5 +1,7 @@
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class PlayerStats : MonoBehaviour
 {
@@ -48,9 +50,10 @@ public class PlayerStats : MonoBehaviour
     private int _weaponIndex;
     private int _passiveItemIndex;
 
-    // TODO remove after testing, Test passive items for spawning
-    public GameObject FirstPassiveItemTest, SecondPassiveItemTest;
-    public GameObject SecondWeaponTest;
+    [Header("UI")]
+    public Image HealthBar;
+    public Image ExperienceBar;
+    public TextMeshProUGUI LevelText;
 
     private void Awake()
     {
@@ -72,12 +75,7 @@ public class PlayerStats : MonoBehaviour
         PlayerCollector.SetDetectorRadius(CurrentMagnet); // Set the detector radius based on the character data
 
         //Spawn the staring weapon
-        SpawnWeapon(_characterData.StartingWeapon); // Spawn the starting weapon for the player        
-
-        // TODO remove after testing
-        //SpawnWeapon(SecondWeaponTest); // Spawn the second weapon for testing
-        //SpawnPassiveItem(FirstPassiveItemTest); // Spawn the first passive item for testing
-        SpawnPassiveItem(SecondPassiveItemTest); // Spawn the second passive item for testing
+        SpawnWeapon(_characterData.StartingWeapon); // Spawn the starting weapon for the player
     }
 
     private void Start()
@@ -93,6 +91,10 @@ public class PlayerStats : MonoBehaviour
         }
         
         GameManager.Instance.AssignChosenCharacterUI(_characterData); // Assign the character UI in the GameManager
+
+        UpdateHealthBar();
+        UpdateExperienceBar();
+        UpdateLevelText();
     }
 
     private void Update()
@@ -117,6 +119,8 @@ public class PlayerStats : MonoBehaviour
 
         // Check if the player has reached the experience cap for leveling up
         LevelUpChecker();
+
+        UpdateExperienceBar(); // Update the experience bar UI
     }
 
     private void LevelUpChecker()
@@ -138,6 +142,7 @@ public class PlayerStats : MonoBehaviour
             }
             ExperienceCap += experienceCapIncrease; // Increase the experience cap for the next level
 
+            UpdateExperienceBar(); // Update the experience bar UI
             GameManager.Instance.StartLevelingUp(); // Notify the GameManager to start the leveling up process
         }
     }
@@ -156,6 +161,8 @@ public class PlayerStats : MonoBehaviour
         {
             Die(); // Call the die method if health is zero or less
         }
+
+        UpdateHealthBar();
     }
 
     public void Die()
@@ -178,6 +185,8 @@ public class PlayerStats : MonoBehaviour
         {
             CurrentHealth = CurrentMaxHealth; // Ensure health does not exceed max health
         }
+
+        UpdateHealthBar();
     }
 
     private void Recover()
@@ -190,6 +199,8 @@ public class PlayerStats : MonoBehaviour
         {
             CurrentHealth = CurrentMaxHealth; // Ensure health does not exceed max health
         }
+
+        UpdateHealthBar();
     }
 
     public void SpawnWeapon(GameObject weapon)
@@ -221,5 +232,23 @@ public class PlayerStats : MonoBehaviour
         spawnedPassiveItem.transform.SetParent(transform); // Set the parent of the spawned passive item to the player
         _inventoryManager.AddPassiveItem(_passiveItemIndex, spawnedPassiveItem.GetComponent<PassiveItem>()); // Add the passive item to the inventory slot
         _passiveItemIndex++; // Increment the passive item index for the next item
+    }
+
+    private void UpdateHealthBar()
+    {
+        // Update the health bar UI based on the current health
+        HealthBar.fillAmount = CurrentHealth / CurrentMaxHealth;
+    }
+
+    private void UpdateExperienceBar()
+    {
+        // Update the experience bar UI based on the current experience
+        ExperienceBar.fillAmount = (float)Experience / ExperienceCap;
+    }
+
+    private void UpdateLevelText()
+    {
+        // Update the level text UI
+        LevelText.text = "LV " + Level.ToString();
     }
 }

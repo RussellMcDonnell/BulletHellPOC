@@ -15,7 +15,7 @@ MonoBehaviour:
   _characterName: Knife Bro
   _characterSprite: {fileID: 3934776110834691092, guid: 45d4f243d1063904aade98c391d0c3d2, type: 3}
   _movementSpeed: 5
-  _maxHealth: 5
+  _maxHealth: 100
   _startingWeapon: {fileID: 3470706724400246519, guid: ed16b619e20b70c42846792207bfc5f6, type: 3}
   _recovery: 1
   _might: 1

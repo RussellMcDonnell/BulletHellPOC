@@ -3,6 +3,7 @@ using UnityEngine.UI;
 using UnityEngine;
 using System;
 using TMPro;
+using System.Linq;
 
 public class InventoryManager : MonoBehaviour
 {
@@ -98,7 +99,7 @@ public class InventoryManager : MonoBehaviour
                 AddWeapon(slotIndex, upgradedWeapon);
                 Destroy(weapon.gameObject);
                 WeaponLevels[slotIndex] = upgradedWeapon.WeaponData.Level; // Update the weapon level
-            
+
                 WeaponUpgradeOptions[upgradeIndex].WeaponData = upgradedWeapon.GetComponent<WeaponController>().WeaponData;
             }
         }
@@ -143,15 +144,50 @@ public class InventoryManager : MonoBehaviour
 
     private void ApplyUpgradeOptions()
     {
+        // Create temporary lists to store the upgrade options. Exclude options that are already at max level (NextLevelPrefab is null)
+        List<WeaponUpgrade> availableWeaponUpgradeOptions = new List<WeaponUpgrade>(WeaponUpgradeOptions.Where(x => x.WeaponData.NextLevelPrefab != null));
+        List<PassiveItemUpgrade> availablePassiveItemUpgradeOptions = new List<PassiveItemUpgrade>(PassiveItemUpgradeOptions.Where(x => x.PassiveItemData.NextLevelPrefab != null));
+
         foreach (var upgradeOption in UpgradeUIOptions)
         {
-            int upgradeType = UnityEngine.Random.Range(1, 3); // Randomly select the type of upgrade (1 for weapon, 2 for passive item)
+            // Check if there are available upgrade options
+            if (availableWeaponUpgradeOptions.Count == 0 && availablePassiveItemUpgradeOptions.Count == 0)
+            {
+                Debug.Log("No available upgrade options to apply.");
+                // Disable the upgrade option UI
+                DisableUpgradeUI(upgradeOption);
+                continue; // Exit the loop if no upgrade options are available
+            }
+
+            // There are available upgrade options, enable the UI
+            EnableUpgradeUI(upgradeOption);
+
+            int upgradeType;
+
+            // if there are no available upgrade options of one type, force the other type
+            if (availableWeaponUpgradeOptions.Count == 0)
+            {
+                upgradeType = 2; // Force passive item upgrade
+            }
+            else if (availablePassiveItemUpgradeOptions.Count == 0)
+            {
+                upgradeType = 1; // Force weapon upgrade
+            }
+            else
+            {
+                // Both types are available, randomly select one
+                upgradeType = UnityEngine.Random.Range(1, 3); // Min inclusive, Max exclusive (1 for weapon, 2 for passive item)
+            }
+
 
             if (upgradeType == 1) // Weapon upgrade
             {
                 // Select a random weapon upgrade option
-                int randomIndex = UnityEngine.Random.Range(0, WeaponUpgradeOptions.Count);
-                WeaponUpgrade selectedWeaponUpgrade = WeaponUpgradeOptions[randomIndex];
+                int randomIndex = UnityEngine.Random.Range(0, availableWeaponUpgradeOptions.Count);
+                WeaponUpgrade selectedWeaponUpgrade = availableWeaponUpgradeOptions[randomIndex];
+
+                // Remove the selected upgrade option from the temporary list so it won't be selected again
+                availableWeaponUpgradeOptions.Remove(selectedWeaponUpgrade);
 
                 if (selectedWeaponUpgrade.InitialWeapon == null)
                 {
@@ -188,8 +224,11 @@ public class InventoryManager : MonoBehaviour
             else // Passive item upgrade
             {
                 // Select a random passive item upgrade option
-                int randomIndex = UnityEngine.Random.Range(0, PassiveItemUpgradeOptions.Count);
-                PassiveItemUpgrade selectedPassiveItemUpgrade = PassiveItemUpgradeOptions[randomIndex];
+                int randomIndex = UnityEngine.Random.Range(0, availablePassiveItemUpgradeOptions.Count);
+                PassiveItemUpgrade selectedPassiveItemUpgrade = availablePassiveItemUpgradeOptions[randomIndex];
+
+                // Remove the selected upgrade option from the temporary list so it won't be selected again
+                availablePassiveItemUpgradeOptions.Remove(selectedPassiveItemUpgrade);
 
                 if (selectedPassiveItemUpgrade.InitialPassiveItem == null)
                 {
@@ -225,14 +264,24 @@ public class InventoryManager : MonoBehaviour
         }
     }
 
+    private void DisableUpgradeUI(UpgradeUI upgradeOption)
+    {
+        // Disable the parent game object of the upgrade option
+        upgradeOption.UpgradeNameDisplay.transform.parent.gameObject.SetActive(false);
+    }
+    private void EnableUpgradeUI(UpgradeUI upgradeOption)
+    {
+        // Enable the parent game object of the upgrade option
+        upgradeOption.UpgradeNameDisplay.transform.parent.gameObject.SetActive(true);
+    }
+
+
     private void RemoveUpgradeOptions()
     {
         foreach (var upgradeOption in UpgradeUIOptions)
         {
             upgradeOption.UpgradeButton.onClick.RemoveAllListeners(); // Remove all listeners from the button
-            upgradeOption.UpgradeNameDisplay.text = string.Empty; // Clear the name display
-            upgradeOption.UpgradeDescriptionDisplay.text = string.Empty; // Clear the description display
-            upgradeOption.UpgradeIcon.sprite = null; // Clear the icon
+            DisableUpgradeUI(upgradeOption);
         }
     }
 
