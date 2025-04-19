@@ -25,8 +25,7 @@ public class Pickup : MonoBehaviour
             {
                 Destroy(gameObject); // Destroy the pickup if it is close enough to the target
             }
-            transform.position += (Vector3)distance * _speed * Time.deltaTime; // Move towards the target
-            
+
             // Destroy the pickup after its lifespan has expired
             LifeSpan -= Time.deltaTime;
             if (LifeSpan <= 0f)
@@ -45,6 +44,14 @@ public class Pickup : MonoBehaviour
             _speed = speed; // Set the speed of the pickup
             if (lifeSpan > 0)
                 LifeSpan = lifeSpan; // Set the lifespan of the pickup
+
+            // Disable the bobbing animation
+            var bobbing = GetComponent<BobbingAnimation>();
+            if (bobbing != null)
+            {
+                bobbing.IsIdle = false;
+            }
+
             Destroy(gameObject, Mathf.Max(0.01f, LifeSpan));
             return true; // Return true if the pickup was collected successfully
         }

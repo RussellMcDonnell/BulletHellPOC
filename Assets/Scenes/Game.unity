@@ -2157,7 +2157,7 @@ Transform:
   m_GameObject: {fileID: 519420028}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: -10}
+  m_LocalPosition: {x: 0, y: 0, z: -15}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -5282,7 +5282,7 @@ CircleCollider2D:
   m_CompositeOperation: 0
   m_CompositeOrder: 0
   m_Offset: {x: 0, y: 0}
-  m_Radius: 0.5
+  m_Radius: 2
 --- !u!114 &1127453873
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6950,8 +6950,25 @@ MonoBehaviour:
     WaveQuota: 0
     SpawnInterval: 0.5
     SpawnCount: 0
+  - WaveName: Wave 3
+    EnemyGroups:
+    - EnemyName: Bat
+      EnemyPrefab: {fileID: 706928515963355, guid: cb08e10a4b13d3b4dbacc771a7bbafa0, type: 3}
+      EnemyCount: 3
+      SpawnedCount: 0
+    - EnemyName: Red Bat
+      EnemyPrefab: {fileID: 706928515963355, guid: 4349e5ee31359024782cf5d0fb1bc7aa, type: 3}
+      EnemyCount: 4
+      SpawnedCount: 0
+    - EnemyName: Dark Bat
+      EnemyPrefab: {fileID: 706928515963355, guid: 3b1e5ea4d70194d458d134b327528c14, type: 3}
+      EnemyCount: 3
+      SpawnedCount: 0
+    WaveQuota: 0
+    SpawnInterval: 0.5
+    SpawnCount: 0
   CurrentWaveIndex: 0
-  MaxEnemiesAllowed: 20
+  MaxEnemiesAllowed: 40
   MaxEnemiesReached: 0
   WaveInterval: 20
   RelativeSpawnPositions:
@@ -9444,9 +9461,6 @@ MonoBehaviour:
   HealthBar: {fileID: 1440218402}
   ExperienceBar: {fileID: 446348187}
   LevelText: {fileID: 344797019}
-  FirstPassiveItemTest: {fileID: 970919164149107445, guid: 30d8ebb5d9321a8459f63ce0ed136aeb, type: 3}
-  SecondPassiveItemTest: {fileID: 5858317722639031567, guid: 547b7562748a5cc4292becb1da8219ba, type: 3}
-  SecondWeaponTest: {fileID: 8729800897727519446, guid: 0306694a94e5b364e8a1af34dfef8a93, type: 3}
 --- !u!114 &1798613732
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -10638,75 +10652,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2123408527}
   m_CullTransparentMesh: 1
---- !u!1001 &767025116211730067
-PrefabInstance:
-  m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    serializedVersion: 3
-    m_TransformParent: {fileID: 0}
-    m_Modifications:
-    - target: {fileID: 706928515963355, guid: cb08e10a4b13d3b4dbacc771a7bbafa0, type: 3}
-      propertyPath: m_Name
-      value: Bat
-      objectReference: {fileID: 0}
-    - target: {fileID: 706928515963355, guid: cb08e10a4b13d3b4dbacc771a7bbafa0, type: 3}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2884527705685459048, guid: cb08e10a4b13d3b4dbacc771a7bbafa0, type: 3}
-      propertyPath: DropsList.Array.data[0].DropRate
-      value: 100
-      objectReference: {fileID: 0}
-    - target: {fileID: 4413237653366054841, guid: cb08e10a4b13d3b4dbacc771a7bbafa0, type: 3}
-      propertyPath: m_LocalPosition.x
-      value: -2.41
-      objectReference: {fileID: 0}
-    - target: {fileID: 4413237653366054841, guid: cb08e10a4b13d3b4dbacc771a7bbafa0, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: -1.45
-      objectReference: {fileID: 0}
-    - target: {fileID: 4413237653366054841, guid: cb08e10a4b13d3b4dbacc771a7bbafa0, type: 3}
-      propertyPath: m_LocalPosition.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4413237653366054841, guid: cb08e10a4b13d3b4dbacc771a7bbafa0, type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 4413237653366054841, guid: cb08e10a4b13d3b4dbacc771a7bbafa0, type: 3}
-      propertyPath: m_LocalRotation.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4413237653366054841, guid: cb08e10a4b13d3b4dbacc771a7bbafa0, type: 3}
-      propertyPath: m_LocalRotation.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4413237653366054841, guid: cb08e10a4b13d3b4dbacc771a7bbafa0, type: 3}
-      propertyPath: m_LocalRotation.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4413237653366054841, guid: cb08e10a4b13d3b4dbacc771a7bbafa0, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4413237653366054841, guid: cb08e10a4b13d3b4dbacc771a7bbafa0, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4413237653366054841, guid: cb08e10a4b13d3b4dbacc771a7bbafa0, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 9214259824328978438, guid: cb08e10a4b13d3b4dbacc771a7bbafa0, type: 3}
-      propertyPath: m_Enabled
-      value: 1
-      objectReference: {fileID: 0}
-    m_RemovedComponents: []
-    m_RemovedGameObjects: []
-    m_AddedGameObjects: []
-    m_AddedComponents: []
-  m_SourcePrefab: {fileID: 100100000, guid: cb08e10a4b13d3b4dbacc771a7bbafa0, type: 3}
 --- !u!1001 &7740961559128484244
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -10773,7 +10718,6 @@ SceneRoots:
   - {fileID: 1798613725}
   - {fileID: 7740961559128484244}
   - {fileID: 1373313416}
-  - {fileID: 767025116211730067}
   - {fileID: 1408234949}
   - {fileID: 218928151}
   - {fileID: 855441015}

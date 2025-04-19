@@ -15,10 +15,10 @@ MonoBehaviour:
   _weaponPrefab: {fileID: 3183714820629169236, guid: 12de25a6cb08aa0458b57b9a66b84d9c, type: 3}
   _damage: 7
   _speed: 15
-  _cooldownDuration: 2
+  _cooldownDuration: 1.5
   _pierce: 1
   _level: 2
-  _nextLevelPrefab: {fileID: 0}
+  _nextLevelPrefab: {fileID: 3470706724400246519, guid: 6bacf0d6653e0e44b918b6c353c175d7, type: 3}
   _icon: {fileID: -1324318189544361227, guid: 891a693dbd378644892932a6adfabdfc, type: 3}
   _weaponName: Knife Level 2
-  _description: Increase knife projectile speed
+  _description: Increase knife Damage to 7

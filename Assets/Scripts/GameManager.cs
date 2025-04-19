@@ -197,7 +197,11 @@ public class GameManager : MonoBehaviour
         // Handle game over logic here (e.g., show game over screen, reset game, etc.)
         Debug.Log("Game Over");
         Time.timeScale = 0f; // Pause the game
-        TimeSurvivedDisplay.text = StopwatchDisplay.text; // Assign the time survived to the display text
+        // Check for null reference before updating the display
+        if (StopwatchDisplay?.text != null)
+        {
+            TimeSurvivedDisplay.text = StopwatchDisplay.text; // Assign the time survived to the display text
+        }
         ChangeState(GameState.GameOver);
     }
 
