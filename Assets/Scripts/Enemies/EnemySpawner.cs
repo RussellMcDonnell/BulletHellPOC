@@ -39,6 +39,7 @@ public class EnemySpawner : MonoBehaviour
     public int MaxEnemiesAllowed; // The maximum number of enemies allowed to be spawned on the map at once
     public bool MaxEnemiesReached = false; // Flag to check if the maximum number of enemies has been reached
     public float WaveInterval; // The interval between waves
+    private bool _isWaveActive = false; // Flag to check if a wave is currently active
 
     [Header("Spawn Positions")]
     public List<Transform> RelativeSpawnPositions; // List of spawn positions for the enemies
@@ -53,7 +54,7 @@ public class EnemySpawner : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (CurrentWaveIndex < Waves.Count && Waves[CurrentWaveIndex].SpawnCount == 0) // Check if the current wave index is valid
+        if (CurrentWaveIndex < Waves.Count && Waves[CurrentWaveIndex].SpawnCount == 0 && !_isWaveActive) // Check if the current wave index is valid
         {
             StartCoroutine(BeginNextWave()); // Start the coroutine to begin the next wave
         }
@@ -69,11 +70,13 @@ public class EnemySpawner : MonoBehaviour
 
     private IEnumerator BeginNextWave()
     {
+        _isWaveActive = true;        
         yield return new WaitForSeconds(WaveInterval); // Wait for the specified wave interval before starting the next wave
 
         
         if (CurrentWaveIndex < Waves.Count - 1) // Check if all waves have been completed
         {
+            _isWaveActive = false;
             CurrentWaveIndex++; // Move to the next wave
             CalculateWaveQuota(); // Calculate the quota for the next wave
         }
@@ -94,12 +97,6 @@ public class EnemySpawner : MonoBehaviour
 
     private void SpawnEnemies()
     {
-        // Reset the flag for maximum enemies reached
-        if(_enemiesAlive < MaxEnemiesAllowed)
-        {
-            MaxEnemiesReached = false; // Reset the flag if the number of enemies is below the maximum allowed
-        }
-
         // Check if the maximum number of enemies has been reached or the current wave has reached its quota
         if (MaxEnemiesReached || Waves[CurrentWaveIndex].SpawnCount >= Waves[CurrentWaveIndex].WaveQuota)
         {
@@ -112,13 +109,6 @@ public class EnemySpawner : MonoBehaviour
             // Check if the group has spawned all its enemies
             if (enemyGroup.SpawnedCount >= enemyGroup.EnemyCount)
                 continue; // Skip to the next group if all enemies are spawned
-
-            // Limit the number of enemies that can be spawned at once
-            if (_enemiesAlive >= MaxEnemiesAllowed)
-            {
-                MaxEnemiesReached = true; // Set the flag if the maximum number of enemies is reached
-                return; // Exit if the maximum number of enemies is reached
-            }
             
             // Spawn the enemy prefab at a random spawn position relative to the player
             Instantiate(enemyGroup.EnemyPrefab, _playerTransform.position + RelativeSpawnPositions[Random.Range(0, RelativeSpawnPositions.Count)].position, Quaternion.identity);
@@ -127,6 +117,12 @@ public class EnemySpawner : MonoBehaviour
             enemyGroup.SpawnedCount++;
             Waves[CurrentWaveIndex].SpawnCount++;
             _enemiesAlive++; // Increment the total number of enemies alive
+
+            // Limit the number of enemies that can be spawned at once
+            if (_enemiesAlive >= MaxEnemiesAllowed)
+            {
+                MaxEnemiesReached = true; // Set the flag if the maximum number of enemies is reached
+            }
         }
     }
 
@@ -134,5 +130,11 @@ public class EnemySpawner : MonoBehaviour
     public void OnEnemyDeath()
     {
         _enemiesAlive--; // Decrement the total number of enemies alive when one dies
+
+        // Reset the flag for maximum enemies reached
+        if(_enemiesAlive < MaxEnemiesAllowed)
+        {
+            MaxEnemiesReached = false; // Reset the flag if the number of enemies is below the maximum allowed
+        }
     }
 }
