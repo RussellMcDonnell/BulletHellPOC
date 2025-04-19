@@ -16,17 +16,32 @@ public class MapController : MonoBehaviour
     private float _optimizationDistance;
     private float _optimizationCooldown;
     public float OptimizationCooldownDuration;
+    private float _chunkCheckerCooldown = 0.5f;
+    private float _chunkCheckerTimer = 0f;
+
 
     private List<string> _directions = new List<string> { "Right", "Left", "Up", "Down", "Right Up", "Right Down", "Left Up", "Left Down" };
 
     // Update is called once per frame
-    void Update()
+    private void Update()
     {
-        ChunkChecker();
-        ChunkOptimzer();
+        ChunkCheckerTimer();
     }
 
-    void ChunkChecker()
+    private void ChunkCheckerTimer()
+    {
+        _chunkCheckerTimer -= Time.deltaTime;
+
+        if (_chunkCheckerTimer <= 0f)
+        {
+            ChunkChecker();
+            ChunkOptimzer();
+            _chunkCheckerTimer = _chunkCheckerCooldown; // Reset timer to 0.5 seconds
+        }
+    }
+
+
+    private void ChunkChecker()
     {
         if (!CurrentTerrainChunck) return; // Check if CurrentTerrainChunck is null
         //string directionName = GetDirectionName(moveDirection); // Get the direction name based on the movement direction
@@ -43,14 +58,14 @@ public class MapController : MonoBehaviour
 
     }
 
-    void SpawnChunk(Vector3 spawnPosition)
+    private void SpawnChunk(Vector3 spawnPosition)
     {
         int randomIndex = Random.Range(0, TerrainChuncks.Count);
         _latestChunck = Instantiate(TerrainChuncks[randomIndex], spawnPosition, Quaternion.identity);
         SpawnedChuncks.Add(_latestChunck);
     }
 
-    void ChunkOptimzer()
+    private void ChunkOptimzer()
     {
         // Optimize how often the optimization check is performed to reduce performance impact
         if (_optimizationCooldown > 0f)
