@@ -8,7 +8,6 @@ public class MapController : MonoBehaviour
     public float CheckerRadius;
     public LayerMask terrainMask;
     public GameObject CurrentTerrainChunck;
-    private Vector3 _playerLstPosition;
 
     [Header("Optimization")]
     public List<GameObject> SpawnedChuncks;
@@ -18,68 +17,33 @@ public class MapController : MonoBehaviour
     private float _optimizationCooldown;
     public float OptimizationCooldownDuration;
 
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
-    {
-        _playerLstPosition = Player.transform.position;
-    }
+    private List<string> _directions = new List<string> { "Right", "Left", "Up", "Down", "Right Up", "Right Down", "Left Up", "Left Down" };
 
     // Update is called once per frame
     void Update()
     {
-        ChunckChecker();
+        ChunkChecker();
         ChunkOptimzer();
     }
 
-    void ChunckChecker()
+    void ChunkChecker()
     {
         if (!CurrentTerrainChunck) return; // Check if CurrentTerrainChunck is null
+        //string directionName = GetDirectionName(moveDirection); // Get the direction name based on the movement direction
 
-        Vector3 moveDirection = Player.transform.position - _playerLstPosition; // Calculate the movement direction of the player
-        _playerLstPosition = Player.transform.position; // Update the last position of the player
-
-        string directionName = GetDirectionName(moveDirection); // Get the direction name based on the movement direction
-
-
-        Vector3 spawnPosition = CurrentTerrainChunck.transform.Find(directionName).position; // Get the spawn position based on the direction name
-        if(!Physics2D.OverlapCircle(spawnPosition, CheckerRadius, terrainMask)) // Check if the area in the specified direction is empty
-        {            
-            SpawnChunck(spawnPosition); // Spawn a new chunk at the spawn position
+        // Check all directions for spawning new chunks
+        foreach (string directionName in _directions)
+        {
+            Vector3 spawnPosition = CurrentTerrainChunck.transform.Find(directionName).position; // Get the spawn position based on the direction name
+            if (!Physics2D.OverlapCircle(spawnPosition, CheckerRadius, terrainMask))
+            {
+                SpawnChunk(spawnPosition); // Spawn a new chunk at the spawn position
+            }
         }
 
     }
 
-    private string GetDirectionName(Vector3 direction)
-    {
-        direction = direction.normalized;
-
-        bool isHorizontal = Mathf.Abs(direction.x) > Mathf.Abs(direction.y);
-        bool isPositivePrimary = (isHorizontal ? direction.x : direction.y) > 0;
-        bool hasSecondary = Mathf.Abs(isHorizontal ? direction.y : direction.x) > 0.5f;
-        bool isPositiveSecondary = (isHorizontal ? direction.y : direction.x) > 0;
-
-        if (isHorizontal)
-        {
-            if (hasSecondary)
-                return isPositivePrimary
-                    ? (isPositiveSecondary ? "Right Up" : "Right Down")
-                    : (isPositiveSecondary ? "Left Up" : "Left Down");
-            else
-                return isPositivePrimary ? "Right" : "Left";
-        }
-        else
-        {
-            if (hasSecondary)
-                return isPositivePrimary
-                    ? (isPositiveSecondary ? "Up Right" : "Up Left")
-                    : (isPositiveSecondary ? "Down Right" : "Down Left");
-            else
-                return isPositivePrimary ? "Up" : "Down";
-        }
-    }
-
-
-    void SpawnChunck(Vector3 spawnPosition)
+    void SpawnChunk(Vector3 spawnPosition)
     {
         int randomIndex = Random.Range(0, TerrainChuncks.Count);
         _latestChunck = Instantiate(TerrainChuncks[randomIndex], spawnPosition, Quaternion.identity);
