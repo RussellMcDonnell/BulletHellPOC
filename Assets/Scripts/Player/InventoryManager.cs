@@ -350,6 +350,8 @@ public class InventoryManager : MonoBehaviour
                     WeaponLevels[weaponSlotIndex] = evolvedWeaponController.WeaponData.Level; // Update the weapon level
                     WeaponIcons[weaponSlotIndex].sprite = evolvedWeaponController.WeaponData.Icon; // Update the icon
 
+                    WeaponUpgradeOptions.RemoveAt(evolution.BaseWeaponData.EvolvedUpgradeToRemove); // Remove the weapon upgrade option that was used for the evolution
+
                     Debug.Log("Evolved " + weapon.WeaponData.WeaponName + " into " + evolvedWeaponController.WeaponData.WeaponName);
 
                     return;

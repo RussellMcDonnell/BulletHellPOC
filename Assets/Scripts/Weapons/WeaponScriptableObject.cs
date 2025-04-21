@@ -23,6 +23,8 @@ public class WeaponScriptableObject : ScriptableObject
     private string _weaponName;
     [SerializeField]
     private string _description;
+    [SerializeField]
+    private int evolvedUpgradeToRemove; // The index of the weapon that will be removed when this weapon is evolved. This is used to remove the weapon from the inventory when it is evolved.
 
     public GameObject WeaponPrefab { get => _weaponPrefab; private set => _weaponPrefab = value; }
     public float Damage { get => _damage; private set => _damage = value; }
@@ -34,4 +36,5 @@ public class WeaponScriptableObject : ScriptableObject
     public Sprite Icon { get => _icon; private set => _icon = value; }
     public string WeaponName { get => _weaponName; private set => _weaponName = value; }
     public string Description { get => _description; private set => _description = value; }
+    public int EvolvedUpgradeToRemove { get => evolvedUpgradeToRemove; private set => evolvedUpgradeToRemove = value; }
 }
