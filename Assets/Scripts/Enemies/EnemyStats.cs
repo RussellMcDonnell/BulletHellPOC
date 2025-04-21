@@ -1,5 +1,8 @@
+using System.Collections;
 using UnityEngine;
+using UnityEngine.Rendering;
 
+[RequireComponent(typeof(SpriteRenderer))]
 public class EnemyStats : MonoBehaviour
 {
     public EnemyScriptableObject EnemyData;
@@ -15,12 +18,31 @@ public class EnemyStats : MonoBehaviour
 
     public float DespawnDistance = 20f;
     private Transform _playerTransform;
+
+    [Header("Damage Feedback")]
+    public Color DamageColor = new Color(1, 0, 0, 1); // Red color for damage feedback
+    public float DamageFlashDuration = 0.2f;
+    public float DeathFadeDuration = 0.6f;
+    private Color originalColor;
+    private SpriteRenderer _spriteRenderer;
+    private EnemyMovement _enemyMovement;
     
 
     private void Start()
     {
         // Find the player transform in the scene
         _playerTransform = FindAnyObjectByType<PlayerStats>().transform;
+
+        _spriteRenderer = GetComponent<SpriteRenderer>();
+        originalColor = _spriteRenderer.color; // Store the original color of the sprite renderer
+        _enemyMovement = GetComponent<EnemyMovement>();
+    }
+
+    private IEnumerator DamageFlash()
+    {
+        _spriteRenderer.color = DamageColor; // Set the sprite color to the damage color
+        yield return new WaitForSeconds(DamageFlashDuration); // Wait for the damage flash duration
+        _spriteRenderer.color = originalColor; // Reset the sprite color to the original color
     }
 
     private void Update()
@@ -41,9 +63,18 @@ public class EnemyStats : MonoBehaviour
         _dropRateManager = GetComponent<DropRateManager>();
     }
 
-    public void TakeDamage(float damage)
+    public void TakeDamage(float damage, Vector2 sourcePosition, float knockbackForce = 5f, float knockbackDuration = 0.2f)
     {
         CurrentHealth -= damage; // Reduce current health by the damage taken
+        StartCoroutine(DamageFlash()); // Start the damage flash coroutine
+
+        if(knockbackForce > 0)
+        {
+            // Get the direction of the knockback based on the source position
+            Vector2 knockbackDirection = (Vector2)transform.position - sourcePosition;
+            _enemyMovement.Knockback(knockbackDirection.normalized * knockbackForce, knockbackDuration); // Apply knockback to the enemy
+        }
+
         if (CurrentHealth <= 0)
         {
             Die(); // Call the die method if health is zero or less

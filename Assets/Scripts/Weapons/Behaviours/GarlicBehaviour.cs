@@ -21,7 +21,7 @@ public class GarlicBehaviour : WeaponBehavior
                 return; // If the enemy component is not found, exit the method
 
             // Call the TakeDamage method on the enemy with the current damage
-            enemy.TakeDamage(GetCurrentDamage());
+            enemy.TakeDamage(GetCurrentDamage(), transform.position);
 
             _markedEnemies.Add(collider.gameObject); // Add the enemy to the list of marked enemies so it doesn't take another instance of damage from this Garlic
         }

@@ -39,7 +39,7 @@ public abstract class WeaponBehavior : MonoBehaviour
             if (enemy == null)
                 return; // If the enemy is null, exit the method
 
-            enemy.TakeDamage(GetCurrentDamage()); // Make suer to use GetCurrentDamage() instead of WeaponData.Damage to use the current stats in case any damage multiplier is applied
+            enemy.TakeDamage(GetCurrentDamage(), transform.position); // Make suer to use GetCurrentDamage() instead of WeaponData.Damage to use the current stats in case any damage multiplier is applied
         }
         else if (collider.CompareTag("Prop"))
         {
