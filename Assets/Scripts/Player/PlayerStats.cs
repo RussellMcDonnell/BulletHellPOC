@@ -21,6 +21,8 @@ public class PlayerStats : MonoBehaviour
     [HideInInspector]
     public float CurrentMagnet;
 
+    public ParticleSystem DamageEffect;
+
     // Experience and level of the Player
     public int Experience = 0;
     public int Level = 1;
@@ -157,6 +159,13 @@ public class PlayerStats : MonoBehaviour
 
         // Reduce current health by the damage taken
         CurrentHealth -= damage;
+
+        // If there is a damage effect, instantiate it at the player's position
+        if(DamageEffect)
+        {
+            Instantiate(DamageEffect, transform.position, Quaternion.identity);
+        }
+        
         if (CurrentHealth <= 0)
         {
             Die(); // Call the die method if health is zero or less

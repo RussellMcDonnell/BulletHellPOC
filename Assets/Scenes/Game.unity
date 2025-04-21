@@ -9506,6 +9506,7 @@ MonoBehaviour:
   CurrentMight: 0
   CurrentProjectileSpeed: 0
   CurrentMagnet: 0
+  DamageEffect: {fileID: 4345556514389106501, guid: 67a472ecd8c226a4a92178fe676b3e3e, type: 3}
   Experience: 0
   Level: 1
   ExperienceCap: 0

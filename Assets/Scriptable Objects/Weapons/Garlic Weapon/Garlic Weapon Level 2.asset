@@ -22,3 +22,4 @@ MonoBehaviour:
   _icon: {fileID: 4641043289130053377, guid: 891a693dbd378644892932a6adfabdfc, type: 3}
   _weaponName: Garlic Level 2
   _description: Cooldown decreased by .5 seconds
+  evolvedUpgradeToRemove: 1

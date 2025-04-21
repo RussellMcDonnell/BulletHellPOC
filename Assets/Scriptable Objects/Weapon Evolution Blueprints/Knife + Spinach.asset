@@ -14,5 +14,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   BaseWeaponData: {fileID: 11400000, guid: 8dd723e0cf0809942922aa1e139be20f, type: 2}
   CatalystPassiveItemData: {fileID: 11400000, guid: 7516b0a5cf5331745b152a71201a5184, type: 2}
-  EvolvedWeaponData: {fileID: 0}
-  EvolvedWeapon: {fileID: 0}
+  EvolvedWeaponData: {fileID: 11400000, guid: c99b6d3131832d04cb45b57494e41bd5, type: 2}
+  EvolvedWeapon: {fileID: 3470706724400246519, guid: 67d7672379301ba468ce230892123fbe, type: 3}

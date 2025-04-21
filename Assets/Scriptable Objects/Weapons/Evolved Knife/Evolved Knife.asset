@@ -12,13 +12,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 95afedd5e3e327a4c87d492ac19cc01f, type: 3}
   m_Name: Evolved Knife
   m_EditorClassIdentifier: 
-  _weaponPrefab: {fileID: 0}
-  _damage: 0
-  _speed: 0
-  _cooldownDuration: 0
-  _pierce: 0
+  _weaponPrefab: {fileID: 3183714820629169236, guid: 3a1a2741d5e9b2c44a46d8b64b9976b3, type: 3}
+  _damage: 10
+  _speed: 16
+  _cooldownDuration: 3
+  _pierce: 3
   _level: 0
   _nextLevelPrefab: {fileID: 0}
-  _icon: {fileID: 0}
+  _icon: {fileID: -8682506659099833999, guid: 891a693dbd378644892932a6adfabdfc, type: 3}
   _weaponName: 
   _description: 
+  evolvedUpgradeToRemove: 0
