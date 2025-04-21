@@ -300,7 +300,7 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    public static void GenerateFloatingText(string text, Transform target, float duration = 1f, float speed = 1f)
+    public static void GenerateFloatingText(string text, Transform target, float duration = 0.75f, float speed = 1f)
     {
         // If the canvas is not set, end the function so we don't generate any floating text
         if (!Instance.DamageTextCanvas)
@@ -317,7 +317,7 @@ public class GameManager : MonoBehaviour
         Instance.StartCoroutine(Instance.GenerateFloatingTextCoroutine(text, target, duration, speed));
     }
 
-    private IEnumerator GenerateFloatingTextCoroutine(string text, Transform target, float duration = 1f, float speed = 1f)
+    private IEnumerator GenerateFloatingTextCoroutine(string text, Transform target, float duration = 0.75f, float speed = 1f)
     {
         // Create a new TextMeshPro object for the floating text
         GameObject floatingText = new GameObject("FloatingText");

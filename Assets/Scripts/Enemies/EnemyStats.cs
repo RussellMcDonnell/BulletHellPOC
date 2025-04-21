@@ -23,7 +23,7 @@ public class EnemyStats : MonoBehaviour
     [Header("Damage Feedback")]
     public Color DamageColor = new Color(1, 0, 0, 1); // Red color for damage feedback
     public float DamageFlashDuration = 0.2f;
-    public float DeathFadeDuration = 0.6f;
+    public float DeathFadeDuration = 0.75f;
     private Color originalColor;
     private SpriteRenderer _spriteRenderer;
     private EnemyMovement _enemyMovement;

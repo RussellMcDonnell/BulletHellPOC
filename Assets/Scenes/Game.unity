@@ -3779,6 +3779,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 1798613723}
     - target: {fileID: 4778130285737227421, guid: e1a7c180c51e38c4b9d67dfeda644e6c, type: 3}
+      propertyPath: TextFontSize
+      value: 50
+      objectReference: {fileID: 0}
+    - target: {fileID: 4778130285737227421, guid: e1a7c180c51e38c4b9d67dfeda644e6c, type: 3}
       propertyPath: LevelUpScreen
       value: 
       objectReference: {fileID: 51812086}
