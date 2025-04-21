@@ -90,6 +90,14 @@ public class EnemyStats : MonoBehaviour
         {
             _dropRateManager.HandleDrop(); // Call the drop loot method if the drop rate manager is present
         }
+        
+        //Try to get the BoxCollider2D component attached to the enemy
+        var collider = GetComponent<BoxCollider2D>();
+        if(collider)
+        {
+            // Disable the collider to prevent further collisions
+            collider.enabled = false;
+        }
 
         // Start the kill fade coroutine to handle the death animation and destruction
         StartCoroutine(KillFade()); // Start the kill fade coroutine
