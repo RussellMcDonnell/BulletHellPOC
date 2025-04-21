@@ -21,5 +21,5 @@ MonoBehaviour:
   _nextLevelPrefab: {fileID: 0}
   _icon: {fileID: 4641043289130053377, guid: 891a693dbd378644892932a6adfabdfc, type: 3}
   _weaponName: Garlic Level 3
-  _description: Damage up by 2
+  _description: Increase damage up by 2 and increase the Size
   evolvedUpgradeToRemove: 1

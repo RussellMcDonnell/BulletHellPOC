@@ -91,7 +91,7 @@ public class PlayerStats : MonoBehaviour
                 ExperienceCap += LevelRanges[i].ExperienceCapIncrease;
             }
         }
-        
+
         GameManager.Instance.AssignChosenCharacterUI(_characterData); // Assign the character UI in the GameManager
 
         UpdateHealthBar();
@@ -110,7 +110,7 @@ public class PlayerStats : MonoBehaviour
                 _isInvincible = false; // Reset the invincibility flag when the timer reaches zero
             }
         }
-        
+
         Recover(); // Call the recover method to restore health over time
     }
 
@@ -148,10 +148,10 @@ public class PlayerStats : MonoBehaviour
             GameManager.Instance.StartLevelingUp(); // Notify the GameManager to start the leveling up process
         }
     }
-    
+
     public void TakeDamage(float damage)
     {
-         // If the player is invincible, ignore damage
+        // If the player is invincible, ignore damage
         if (_isInvincible) return;
 
         _invincibilityTimer = InvincibilityDuration; // Reset the invincibility timer
@@ -160,15 +160,17 @@ public class PlayerStats : MonoBehaviour
         // Reduce current health by the damage taken
         CurrentHealth -= damage;
 
-        // If there is a damage effect, instantiate it at the player's position
-        if(DamageEffect)
-        {
-            Instantiate(DamageEffect, transform.position, Quaternion.identity);
-        }
-        
         if (CurrentHealth <= 0)
         {
             Die(); // Call the die method if health is zero or less
+        }
+        else
+        {
+            // If there is a damage effect, instantiate it at the player's position
+            if (DamageEffect)
+            {
+                Instantiate(DamageEffect, transform.position, Quaternion.identity);
+            }
         }
 
         UpdateHealthBar();
@@ -176,7 +178,7 @@ public class PlayerStats : MonoBehaviour
 
     public void Die()
     {
-        if(!GameManager.Instance.CurrentState.Equals(GameManager.GameState.GameOver))
+        if (!GameManager.Instance.CurrentState.Equals(GameManager.GameState.GameOver))
         {
             GameManager.Instance.AssignChosenWeaponsAndPassivesItemsUI(_inventoryManager.WeaponIcons, _inventoryManager.PassiveItemIcons); // Assign the UI for the chosen weapons and passive items
             GameManager.Instance.AssignLevelReachedUI(Level);
@@ -214,7 +216,7 @@ public class PlayerStats : MonoBehaviour
 
     public void SpawnWeapon(GameObject weapon)
     {
-        if (_weaponIndex >= _inventoryManager.WeaponSlots.Count -1)
+        if (_weaponIndex >= _inventoryManager.WeaponSlots.Count - 1)
         {
             Debug.LogError("Trying to add a weapon when the Inventory slots are already full!"); // Log an error if there are no available weapon slots
             return; // Exit the method if there are no available slots

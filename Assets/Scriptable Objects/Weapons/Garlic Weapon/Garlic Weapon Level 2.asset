@@ -21,5 +21,5 @@ MonoBehaviour:
   _nextLevelPrefab: {fileID: 8729800897727519446, guid: 3c282410cc190744faf434f4256a3583, type: 3}
   _icon: {fileID: 4641043289130053377, guid: 891a693dbd378644892932a6adfabdfc, type: 3}
   _weaponName: Garlic Level 2
-  _description: Cooldown decreased by .5 seconds
+  _description: Increase the Size and cooldown decreased by .5 seconds
   evolvedUpgradeToRemove: 1
