@@ -91,7 +91,8 @@ public class EnemyStats : MonoBehaviour
             _dropRateManager.HandleDrop(); // Call the drop loot method if the drop rate manager is present
         }
 
-        Destroy(gameObject); // Destroy the enemy game object
+        // Start the kill fade coroutine to handle the death animation and destruction
+        StartCoroutine(KillFade()); // Start the kill fade coroutine
     }
 
     private void OnCollisionStay2D(Collision2D collision)
@@ -122,5 +123,22 @@ public class EnemyStats : MonoBehaviour
        
        // Return the enemy to a random spawn position relative to the player
        transform.position = _playerTransform.position + enemySpawner.RelativeSpawnPositions[Random.Range(0, enemySpawner.RelativeSpawnPositions.Count)].position;
+    }
+
+    private IEnumerator KillFade()
+    {
+        // Wait for a single frame
+        WaitForEndOfFrame waitForEndOfFrame = new WaitForEndOfFrame();
+        float t = 0, originalAlpha = _spriteRenderer.color.a; // Store the original alpha value of the sprite renderer
+
+        while (t < DeathFadeDuration) {
+            yield return waitForEndOfFrame; // Wait for the end of the frame
+            t += Time.deltaTime; // Increment the time variable
+
+            // Set the color for this frame
+            _spriteRenderer.color = new Color(_spriteRenderer.color.r, _spriteRenderer.color.g, _spriteRenderer.color.b, Mathf.Lerp(originalAlpha, 0, t / DeathFadeDuration)); // Lerp the alpha value to create a fade-out effect
+        }
+
+        Destroy(gameObject); // Destroy the enemy game object after the fade-out effect
     }
 }
