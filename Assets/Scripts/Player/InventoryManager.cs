@@ -303,12 +303,12 @@ public class InventoryManager : MonoBehaviour
         {
             foreach (var weapon in availableWeapons)
             {
-                if (weapon.WeaponData.Level <= evolution.BaseWeaponData.Level)
+                if (weapon.WeaponData.Level < evolution.BaseWeaponData.Level)
                     continue;
 
                 foreach (var catalyst in availableCatalysts)
                 {
-                    if (catalyst.PassiveItemData.Level > evolution.CatalystPassiveItemData.Level)
+                    if (catalyst.PassiveItemData.Level >= evolution.CatalystPassiveItemData.Level)
                     {
                         possibleEvolutions.Add(evolution);
                         break; // No need to keep checking catalysts if one matches
@@ -318,5 +318,43 @@ public class InventoryManager : MonoBehaviour
         }
 
         return possibleEvolutions;
+    }
+
+
+    // TODO there is an issue where we are not checking the type of the weapon and passive item just the level
+    public void EvolveWeapon(WeaponEvolutionBlueprint evolution)
+    {
+        for (int weaponSlotIndex = 0; weaponSlotIndex < WeaponSlots.Count; weaponSlotIndex++)
+        {
+            WeaponController weapon = WeaponSlots[weaponSlotIndex];
+            if (!weapon)
+                continue;
+
+            for (int catalystSlotIndex = 0; catalystSlotIndex < PassiveItemSlots.Count; catalystSlotIndex++)
+            {
+                PassiveItem catalyst = PassiveItemSlots[catalystSlotIndex];
+                if (!catalyst)
+                    continue;
+
+                // Check if the weapon and passive item match the evolution criteria
+                if (weapon.WeaponData.Level >= evolution.BaseWeaponData.Level && catalyst.PassiveItemData.Level >= evolution.CatalystPassiveItemData.Level)
+                {
+                    GameObject evolvedWeapon = Instantiate(evolution.EvolvedWeapon, transform.position, Quaternion.identity);
+                    WeaponController evolvedWeaponController = evolvedWeapon.GetComponent<WeaponController>();
+
+                    evolvedWeapon.transform.SetParent(transform); // Set the parent of the spawned weapon to the player
+                    AddWeapon(weaponSlotIndex, evolvedWeaponController); // Add the evolved weapon to the inventory slot
+                    Destroy(weapon.gameObject); // Destroy the old weapon
+
+                    //Update level and icon
+                    WeaponLevels[weaponSlotIndex] = evolvedWeaponController.WeaponData.Level; // Update the weapon level
+                    WeaponIcons[weaponSlotIndex].sprite = evolvedWeaponController.WeaponData.Icon; // Update the icon
+
+                    Debug.Log("Evolved " + weapon.WeaponData.WeaponName + " into " + evolvedWeaponController.WeaponData.WeaponName);
+
+                    return;
+                }
+            }
+        }
     }
 }
