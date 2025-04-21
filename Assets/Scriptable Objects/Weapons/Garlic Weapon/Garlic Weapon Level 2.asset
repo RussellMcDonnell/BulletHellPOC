@@ -19,7 +19,7 @@ MonoBehaviour:
   _pierce: 0
   _level: 2
   _nextLevelPrefab: {fileID: 8729800897727519446, guid: 3c282410cc190744faf434f4256a3583, type: 3}
-  _icon: {fileID: 4641043289130053377, guid: 891a693dbd378644892932a6adfabdfc, type: 3}
+  _icon: {fileID: 579569563849759094, guid: 463885d5c779a754db3f4b66f4737459, type: 3}
   _weaponName: Garlic Level 2
   _description: Increase the Size and cooldown decreased by .5 seconds
   evolvedUpgradeToRemove: 1
