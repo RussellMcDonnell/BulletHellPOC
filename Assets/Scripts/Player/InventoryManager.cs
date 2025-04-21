@@ -16,7 +16,6 @@ public class InventoryManager : MonoBehaviour
     public int[] WeaponLevels = new int[6];
     public int[] PassiveItemLevels = new int[6];
 
-
     [Serializable]
     public class WeaponUpgrade
     {
@@ -45,6 +44,8 @@ public class InventoryManager : MonoBehaviour
     public List<WeaponUpgrade> WeaponUpgradeOptions = new List<WeaponUpgrade>(); // List of upgrade options for weapons
     public List<PassiveItemUpgrade> PassiveItemUpgradeOptions = new List<PassiveItemUpgrade>(); // List of upgrade options for passive items
     public List<UpgradeUI> UpgradeUIOptions = new List<UpgradeUI>(); // List of UI for Upgrade options present in the scene
+
+    public List<WeaponEvolutionBlueprint> WeaponEvolutionOptions = new List<WeaponEvolutionBlueprint>();
 
     private PlayerStats _player;
 
@@ -289,5 +290,33 @@ public class InventoryManager : MonoBehaviour
     {
         RemoveUpgradeOptions(); // Remove existing upgrade options
         ApplyUpgradeOptions(); // Apply new upgrade options
+    }
+
+    public List<WeaponEvolutionBlueprint> GetPossibleEvolutions()
+    {
+        var possibleEvolutions = new List<WeaponEvolutionBlueprint>();
+
+        var availableWeapons = WeaponSlots.Where(w => w != null).ToList();
+        var availableCatalysts = PassiveItemSlots.Where(p => p != null).ToList();
+
+        foreach (var evolution in WeaponEvolutionOptions)
+        {
+            foreach (var weapon in availableWeapons)
+            {
+                if (weapon.WeaponData.Level <= evolution.BaseWeaponData.Level)
+                    continue;
+
+                foreach (var catalyst in availableCatalysts)
+                {
+                    if (catalyst.PassiveItemData.Level > evolution.CatalystPassiveItemData.Level)
+                    {
+                        possibleEvolutions.Add(evolution);
+                        break; // No need to keep checking catalysts if one matches
+                    }
+                }
+            }
+        }
+
+        return possibleEvolutions;
     }
 }
