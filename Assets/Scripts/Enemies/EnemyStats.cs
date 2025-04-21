@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using UnityEngine;
 using UnityEngine.Rendering;
@@ -68,6 +69,12 @@ public class EnemyStats : MonoBehaviour
         CurrentHealth -= damage; // Reduce current health by the damage taken
         StartCoroutine(DamageFlash()); // Start the damage flash coroutine
 
+        // Create the text popup for damage feedback
+        if (damage > 0)
+        {
+            GameManager.GenerateFloatingText(Mathf.FloorToInt(damage).ToString(), transform);
+        }
+
         if(knockbackForce > 0)
         {
             // Get the direction of the knockback based on the source position
@@ -90,7 +97,7 @@ public class EnemyStats : MonoBehaviour
         {
             _dropRateManager.HandleDrop(); // Call the drop loot method if the drop rate manager is present
         }
-        
+
         //Try to get the BoxCollider2D component attached to the enemy
         var collider = GetComponent<BoxCollider2D>();
         if(collider)
@@ -130,7 +137,7 @@ public class EnemyStats : MonoBehaviour
        EnemySpawner enemySpawner = FindAnyObjectByType<EnemySpawner>(); // Find the enemy spawner in the scene
        
        // Return the enemy to a random spawn position relative to the player
-       transform.position = _playerTransform.position + enemySpawner.RelativeSpawnPositions[Random.Range(0, enemySpawner.RelativeSpawnPositions.Count)].position;
+       transform.position = _playerTransform.position + enemySpawner.RelativeSpawnPositions[UnityEngine.Random.Range(0, enemySpawner.RelativeSpawnPositions.Count)].position;
     }
 
     private IEnumerator KillFade()

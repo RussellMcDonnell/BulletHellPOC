@@ -1,3 +1,4 @@
+using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
@@ -23,6 +24,12 @@ public class GameManager : MonoBehaviour
     public GameState CurrentState;
 
     public GameState PreviousState;
+
+    [Header("Damage Text Settings")]
+    public Canvas DamageTextCanvas;
+    public float TextFontSize = 50f;
+    public TMP_FontAsset TextFont;
+    public Camera ReferenceCamera;
 
     [Header("Screens")]
     public GameObject PauseScreen;
@@ -116,7 +123,7 @@ public class GameManager : MonoBehaviour
         StopwatchTime += Time.deltaTime; // Increment the time survived by the time since the last frame
         UpdateStopwatchDisplay();
 
-        if(StopwatchTime >= TimeLimit) // Check if the time limit is reached
+        if (StopwatchTime >= TimeLimit) // Check if the time limit is reached
         {
             GameOver(); // Call the game over method
         }
@@ -293,20 +300,79 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    private void AssignRuntimeReferences()
+    public static void GenerateFloatingText(string text, Transform target, float duration = 1f, float speed = 1f)
     {
-        PauseScreen = GameObject.Find("Pause Screen");
-        ResultsScreen = GameObject.Find("Results Screen");
+        // If the canvas is not set, end the function so we don't generate any floating text
+        if (!Instance.DamageTextCanvas)
+        {
+            return;
+        }
 
-        // Example of finding TextMeshProUGUI by name
-        CurrentHealthDisplay = GameObject.Find("Current Health Display")?.GetComponent<TextMeshProUGUI>();
-        CurrentRecoveryDisplay = GameObject.Find("Current Recovery Display")?.GetComponent<TextMeshProUGUI>();
-        CurrentMovementSpeedDisplay = GameObject.Find("Current Move Speed Display")?.GetComponent<TextMeshProUGUI>();
-        CurrentMightDisplay = GameObject.Find("Current Might Display")?.GetComponent<TextMeshProUGUI>();
-        CurrentProjectileSpeedDisplay = GameObject.Find("Current Projectile Speed Display")?.GetComponent<TextMeshProUGUI>();
-        CurrentMagnetDisplay = GameObject.Find("Current Magnet Display")?.GetComponent<TextMeshProUGUI>();
+        // Find a relevant camera that we can use to convert the world position to screen position
+        if (!Instance.ReferenceCamera)
+        {
+            Instance.ReferenceCamera = Camera.main;
+        }
 
-        ChosenCharacterImage = GameObject.Find("Chosen Character Image")?.GetComponent<Image>();
-        ChosenCharacterName = GameObject.Find("Chosen Character Name")?.GetComponent<TextMeshProUGUI>();
+        Instance.StartCoroutine(Instance.GenerateFloatingTextCoroutine(text, target, duration, speed));
+    }
+
+    private IEnumerator GenerateFloatingTextCoroutine(string text, Transform target, float duration = 1f, float speed = 1f)
+    {
+        // Create a new TextMeshPro object for the floating text
+        GameObject floatingText = new GameObject("FloatingText");
+        RectTransform rectTransform = floatingText.AddComponent<RectTransform>();
+        TextMeshProUGUI textMesh = floatingText.AddComponent<TextMeshProUGUI>();
+        textMesh.text = text;
+        textMesh.fontSize = TextFontSize;
+        if (TextFont)
+        {
+            textMesh.font = TextFont;
+        }
+        textMesh.alignment = TextAlignmentOptions.Center;
+        textMesh.verticalAlignment = VerticalAlignmentOptions.Middle;
+        textMesh.color = Color.white;
+
+        // Safety check: Make sure target isn't null before setting position
+        if (target != null)
+        {
+            rectTransform.position = ReferenceCamera.WorldToScreenPoint(target.position);
+        }
+
+        // Destroy the floating text object after the animation is complete
+        Destroy(floatingText, duration);
+
+        floatingText.transform.SetParent(Instance.DamageTextCanvas.transform);
+
+        // Pan the text upwards and fade it away over time
+        WaitForEndOfFrame waitForEndOfFrame = new WaitForEndOfFrame();
+        float t = 0f;
+        float yOffset = 0f;
+        while (t < duration)
+        {
+            yield return waitForEndOfFrame; // Wait for the end of the frame
+            t += Time.deltaTime; // Increment the time variable
+
+            // Fade out the text color to the right alpha value
+            textMesh.color = Color.Lerp(Color.white, Color.clear, t / duration);
+
+            // Pan the text upwards
+            yOffset += speed * Time.deltaTime; // Calculate the vertical offset
+
+            if(!rectTransform)
+            {
+                yield break; // Exit the coroutine if rectTransform is null
+            }
+
+            if (target != null)
+            {
+                rectTransform.position = ReferenceCamera.WorldToScreenPoint(target.position + new Vector3(0, yOffset));
+            }
+            else
+            {
+                // Optional: If the target is gone, maybe just move the text upwards from its last position
+                rectTransform.position += new Vector3(0, speed * Time.deltaTime);
+            }
+        }
     }
 }

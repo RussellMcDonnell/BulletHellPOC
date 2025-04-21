@@ -3787,6 +3787,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 186171878}
     - target: {fileID: 4778130285737227421, guid: e1a7c180c51e38c4b9d67dfeda644e6c, type: 3}
+      propertyPath: DamageTextCanvas
+      value: 
+      objectReference: {fileID: 218928150}
+    - target: {fileID: 4778130285737227421, guid: e1a7c180c51e38c4b9d67dfeda644e6c, type: 3}
       propertyPath: LevelReachedText
       value: 
       objectReference: {fileID: 570012886}
